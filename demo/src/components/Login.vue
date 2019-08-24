@@ -68,7 +68,7 @@
                             console.info('后台返回的数据', res.data);
                             // 返回true的话就跳转到编辑器（暂时
                             if(res.data)
-                            {this.$router.push({path: '/MdEditor'});}
+                            {this.$router.push({name: 'MdEditor', params: {username: this.formInline.userName}});}
 
                         }).catch(err => {
                             console.info('报错的信息', err.response.message);
@@ -78,19 +78,6 @@
                     }
                 })
             },
-          gosignup()
-          {
-            this.$axios({
-              url: '/rest/Signup',//请求的地址
-              method: 'post',//请求的方式
-              data: this.formInline//请求的表单数据
-            }).then(res => {
-              this.$router.push({path: '/Signup'});
-
-            }).catch(err => {
-              console.info('报错的信息', err.response.message);
-            });
-          }
 
         }
     }

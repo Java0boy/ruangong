@@ -1,11 +1,11 @@
 <template><!--参考了：https://blog.csdn.net/qq_31906861/article/details/88918439 -->
   <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-      <FormItem prop="blogTitle">
+    <FormItem prop="blogTitle">
       <Input v-model="formInline.blogTitle" placeholder="Blog Title" style="width: 300px">  </Input>
-      </FormItem>
-      <FormItem>
+    </FormItem>
+    <FormItem>
       <Button type="primary" @click="handleSubmit('formInline')">Post Blog</Button>
-      </FormItem>
+    </FormItem>
     <div id="layout">
       <div id="blog_editormd" style="margin-top: 5px;">
 
@@ -44,14 +44,25 @@
         },
         methods: {
             handleSubmit(name) {
+                var timestamp=new Date().getTime();
+                var blogId = this.$route.params.username+ timestamp;
+                console.log(blogId);
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$axios({
                             url: '/rest/postBlog',//请求的地址
                             method: 'post',//请求的方式
-                            data: {title: this.formInline.blogTitle, blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML()},//请求的表单数据
+                            data: {title: this.formInline.blogTitle, blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: blogId},//请求的表单数据
                         }).then(res => {
                             console.info('后台返回的数据', res.data);
+                            if (res.data)
+                            {
+                                // 连上数据库之后想办法把'tester'变成当前已经登录的用户的用户名
+                                // ID用这样的格式，我想一般不会重：用户名+当前时间戳，最好是就固定下来，编辑的时候注意一下ID不更新
+
+                                this.$router.push({name: 'SingleBlog', params: {username: this.$route.params.username, blogId: blogId}})
+                            }
+
                         }).catch(err => {
                             console.info('报错的信息', err.response.message);
                         });

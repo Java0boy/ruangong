@@ -16,15 +16,17 @@ import Login from './components/Login'
 import MdEditor from "./components/MdEditor";
 import VueRouter from 'vue-router';
 import Signup from './components/Signup';
+import BlogPage from "./components/BlogPage";
 Vue.use(VueRouter);
 
 
 //定义路由
 const routes = [
   {path:'/',component:Login},
-  { path: '/Login', component: Login },
-  { path: '/MdEditor', component: MdEditor },
-  {path:'/Signup',component:Signup},
+  { path: '/Login', name: 'Login', component: Login },
+  { path: '/:username/MdEditor', name: 'MdEditor', component: MdEditor},
+  {path:'/Signup', name: 'SignUp', component:Signup},
+  {path: '/:username/:blogId', name : 'SingleBlog', component: BlogPage},
 ]
 
 
