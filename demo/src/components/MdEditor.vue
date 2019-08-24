@@ -45,8 +45,7 @@
         methods: {
             handleSubmit(name) {
                 var timestamp=new Date().getTime();
-                var blogId = this.$route.params.username+ timestamp;
-                console.log(blogId);
+                var blogId = this.$route.params.username + timestamp;
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$axios({
@@ -59,7 +58,6 @@
                             {
                                 // 连上数据库之后想办法把'tester'变成当前已经登录的用户的用户名
                                 // ID用这样的格式，我想一般不会重：用户名+当前时间戳，最好是就固定下来，编辑的时候注意一下ID不更新
-
                                 this.$router.push({name: 'SingleBlog', params: {username: this.$route.params.username, blogId: blogId}})
                             }
 
