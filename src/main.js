@@ -6,6 +6,7 @@ import iView from 'iview'
 import axios from 'axios'
 import qs from 'qs'
 import $ from 'jquery'
+import crypto from 'crypto'
 
 
 Vue.prototype.$axios = axios    //全局注册，使用方法为:this.$axios
@@ -42,7 +43,7 @@ const routes = [
   {path: '/Home', name: 'Home', component: Home},
   {path: '/:username', name: 'UserPage', component: User},
   {path: '/Post', name: 'Post', component: Post},
-  
+
 
 ]
 

@@ -50,6 +50,7 @@
 
 </template>
 <script>
+    import crypto from 'crypto';
   export default {
     data() {
       return {
@@ -85,10 +86,13 @@
           handleSubmitsignup(name) {
               this.$refs[name].validate((valid) => {
                   if (valid) {
+                      var md5 = crypto.createHash("md5");
+                      md5.update(this.formInline.password);
+                      var hashed = md5.digest('hex');
                       this.$axios({
                           url: '/rest/signup',//请求的地址
                           method: 'post',//请求的方式
-                          data: this.formInline//请求的表单数据
+                          data: {userName: this.formInline.userName, password: hashed, sex: this.formInline.sex, age: this.formInline.age}//请求的表单数据
                       }).then(res => {
                           console.info('后台返回的数据', res.data);
                           // 返回true的话就跳转到编辑器（暂时
