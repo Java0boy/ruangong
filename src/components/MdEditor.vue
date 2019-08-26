@@ -9,7 +9,8 @@
     <div id="layout">
       <div id="blog_editormd" style="margin-top: 5px;">
 
-        <textarea style="display: none;"></textarea>
+        <textarea style="display: none;">
+        </textarea>
 
       </div>
     </div>
@@ -51,7 +52,7 @@
                         this.$axios({
                             url: '/rest/postBlog',//请求的地址
                             method: 'post',//请求的方式
-                            data: {title: this.formInline.blogTitle, blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: blogId},//请求的表单数据
+                            data: {title: this.formInline.blogTitle, username: this.$route.params.username, date: Date().toString(), blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: blogId},//请求的表单数据
                         }).then(res => {
                             console.info('后台返回的数据', res.data);
                             if (res.data)
@@ -71,6 +72,7 @@
             }
         },
         created(){
+
             this.$nextTick(() =>{
                 const blogEditor = editormd("blog_editormd",{
                     placeholder : '欢迎使用editor.md 编辑器',

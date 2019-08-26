@@ -1,9 +1,10 @@
 <template>
+  <div>
   <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
     <div >
     </div>
     <div class="outer_label">
-      <img class="inner_label login_logo" src="../assets/logoblog.png">
+      <img class="inner_label login_logo" src="../assets/logo-large.png" style="margin: 30px 30px" width="200">
     </div>
     <div class="login_form">
 
@@ -20,17 +21,15 @@
       </FormItem>
       <br>
       <FormItem>
-        <Button type="primary" @click="handleSubmit('formInline')">Signin</Button>
+        <div class = "headtext" type="primary" @click="handleSubmit('formInline')">登录</div>
       </FormItem>
+      <br>
       <FormItem>
-        <router-link :to="{ path: '/Signup' }"><Button type="primary" @click="gosignup()">Signup</Button></router-link>
+        <span>没有账号？ 立即  </span><router-link   :to="{ path: '/Signup' }"><span type="primary" @click="gosignup()">注册</span></router-link>
       </FormItem>
     </div>
   </Form>
-
-
-
-
+  </div>
 </template>
 <script>
     export default {
@@ -67,8 +66,16 @@
                         }).then(res => {
                             console.info('后台返回的数据', res.data);
                             // 返回true的话就跳转到编辑器（暂时
-                            if(res.data)
-                            {this.$router.push({name: 'MdEditor', params: {username: this.formInline.userName}});}
+                            if(res.data=="22222222222"){
+                                console.log(res.data);
+                                this.$Message.warning('密码错误');
+                            }
+                            else if(res.data=="11111111111")
+                            {
+                                this.$Message.error('用户名不存在');
+                            }
+                            else
+                            {this.$router.push({name: 'UserPage', params:{username: this.formInline.userName}});}
 
                         }).catch(err => {
                             console.info('报错的信息', err.response.message);
@@ -78,11 +85,55 @@
                     }
                 })
             },
+          gosignup()
+          {
+            this.$axios({
+              url: '/rest/Signup',//请求的地址
+              method: 'post',//请求的方式
+              data: this.formInline//请求的表单数据
+            }).then(res => {
+              this.$router.push({path: '/Signup'});
+
+            }).catch(err => {
+              console.info('报错的信息', err.response.message);
+            });
+          }
 
         }
     }
 </script>
 <style>
+  .headtext{
+
+    font-size: 15px;
+    height: 35px;
+    line-height: 35px;
+    width:100px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0);
+    text-align: center;
+    vertical-align:middle;
+    line-height: 35px;
+
+    background: #6e9aa6;
+    color: #ffffff;
+    border: 3px solid #6e9aa6;
+
+  }
+  .headtext:hover{
+
+    background: white;
+    color: #a6dadd;
+    border: 2px solid white;
+
+  }
+  .headtext:active{
+
+    border-radius: 10px;
+    background: #6e9aa6;
+    color: #ffffff;
+    border: 3px solid #6e9aa6;
+  }
   .login_form {
     padding-top: 0%;
     padding-left: 10%;

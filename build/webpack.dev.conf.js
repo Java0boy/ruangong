@@ -10,8 +10,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+//第一步 const portfinder = require('portfinder'),在后面加上
+const express = require('express')
+const app = express()
+const appData = require('../data.json') // 加载本地json文件
+const result = appData.result  // 获取对应本地数据
+const result2 = appData.result2  // 获取对应本地数据
+
+const apiRoutes = express.Router()
+app.use('/api',apiRoutes)
+
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
+
+
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -22,6 +35,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
+//
+    before (app) {
+      app.get('/api/result',(reg,res) => {
+        res.json({
+          errno: 0,
+          data: result
+        }) // 接口返回json数据，上面配置的数据seller就复制给data请求后调用
+      }),
+      app.get('/api/result2',(reg,res) => {
+        res.json({
+          errno: 0,
+          data: result2
+        }) // 接口返回json数据，上面配置的数据seller就复制给data请求后调用
+      })
+    },
+
+  //
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [

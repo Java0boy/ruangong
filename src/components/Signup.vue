@@ -3,11 +3,11 @@
     <div >
     </div>
     <div class="outer_label">
-      <img class="inner_label login_logo" src="../assets/logoblog.png">
+      <img class="inner_label login_logo" src="../assets/logo-large.png" style="margin: 30px 30px" width="200">
     </div>
     <div class="login_form">
       <div>
-        <h1> ------Sign Up------</h1>
+<!--        <h1> &#45;&#45;&#45;&#45;&#45;&#45;Sign Up&#45;&#45;&#45;&#45;&#45;&#45;</h1>-->
       </div>
       <FormItem prop="userName">
         <div>
@@ -36,7 +36,11 @@
       </FormItem>
       <br>
       <FormItem>
-        <Button type="primary" @click="handleSubmitsignup('formInline')" class="login_btn">Signup</Button>
+        <div type="primary" @click="handleSubmitsignup('formInline')" class="headtext" style="margin-bottom: 20px">注册</div>
+
+        <FormItem>
+          <span>已有账号？ 立即  </span><router-link   :to="{ path: '/Login' }"><span type="primary">登录</span></router-link>
+        </FormItem>
       </FormItem>
     </div>
   </Form>
@@ -77,30 +81,67 @@
         }
       }
     },
-    methods: {
-      handleSubmitsignup(name) {
-        this.$refs[name].validate((valid) => {
-          if (valid) {
-            this.$axios({
-              url: '/rest/signup',//请求的地址
-              method: 'post',//请求的方式
-              data: this.formInline//请求的表单数据
-            }).then(res => {
-              console.info('后台返回的数据', res.data);
-              // 返回true的话就跳转到编辑器（暂时
-              this.$router.push({path: '/Login'});
-            }).catch(err => {
-              console.info('报错的信息', err.response.message);
-            });
-          } else {
-            this.$Message.error('表单校验失败!');
+      methods: {
+          handleSubmitsignup(name) {
+              this.$refs[name].validate((valid) => {
+                  if (valid) {
+                      this.$axios({
+                          url: '/rest/signup',//请求的地址
+                          method: 'post',//请求的方式
+                          data: this.formInline//请求的表单数据
+                      }).then(res => {
+                          console.info('后台返回的数据', res.data);
+                          // 返回true的话就跳转到编辑器（暂时
+                          if(res.data){
+                              this.$router.push({path: '/Login'});
+                          }
+                          else
+                          {
+                              this.$Message.error('用户名已存在');
+                          }
+
+                      }).catch(err => {
+                          console.info('报错的信息', err.response.message);
+                      });
+                  } else {
+                      this.$Message.error('表单校验失败!');
+                  }
+              })
           }
-        })
       }
-    }
   }
 </script>
 <style>
+  .headtext{
+    font-size: 15px;
+    height: 35px;
+    line-height: 35px;
+    width:100px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0);
+    text-align: center;
+    vertical-align:middle;
+    line-height: 35px;
+
+    background: #6e9aa6;
+    color: #ffffff;
+    border: 3px solid #6e9aa6;
+
+  }
+  .headtext:hover{
+
+    background: white;
+    color: #a6dadd;
+    border: 2px solid white;
+
+  }
+  .headtext:active{
+
+    border-radius: 10px;
+    background: #6e9aa6;
+    color: #ffffff;
+    border: 3px solid #6e9aa6;
+  }
   .login_form {
     padding-top: 0%;
     padding-left: 10%;
