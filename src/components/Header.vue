@@ -9,7 +9,7 @@
         <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-test-title.png" height="40" style="display: inline-block; vertical-align: middle;"></router-link></div>
         <div class="inline" style="width: 40px"></div>
 <!--        <button class="button button-large button-plain button-border button-box"><i class="fa fa-star"></i></button>-->
-        <div class="inline"><router-link :to="{ name: 'Post' }"><div class="headtext">所有文章</div></router-link></div>
+        <div class="inline"><div class="headtext">所有文章</div></div><!--这个东西暂时不能用了 -->
 <!--        <div class="inline"><router-link :to="{ path: '/Post' }"><el-button round>圆角按钮</el-button></router-link></div>-->
 
       </div>
@@ -19,22 +19,13 @@
           <span class="inputSearch" id="searchInput"><input class="searchbox" v-model="formInline.keyword"></input></span>
         </div>
         <div class="inline">
-          <div class="searchicon" @click="handleSubmit"></div>
+          <div class="searchicon" @click="searchUser"></div>
         </div>
         <div class="inline" style="width: 30px">
         </div>
 
         <div class="inline">
-<!--          <router-link :to="{ path: '/User/1' }"><img class = "usericon" src="../assets/icon-user.png" width="40" height="40" style="display: inline-block; vertical-align: middle;"></router-link>-->
-<!--          <div class="usericon" @click=""></div>-->
 
-
-<!--          <div class="inline" v-if="yonghuming=='00000000000'">-->
-<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">登录</button></router-link>-->
-<!--          </div>-->
-<!--          <div class="inline" v-else>-->
-<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{Global.sso_flag}}</button></router-link>-->
-<!--          </div>-->
           <div class="inline">
             <router-link :to="{ path: '/Login' }"><button class = "headtext" id="headButton">登录</button></router-link>
           </div>
@@ -71,23 +62,10 @@
         },
 
         methods: {
-            handleSubmit() {
-                this.$axios({
-                    url: '/rest/getUserMessage',//请求的地址
-                    method: 'post',//请求的方式
-                    data: {userName: this.formInline.keyword, password: ''},//请求的表单数据
-                }).then(res => {
-                    console.info('后台返回的数据', res.data);
-                    if (res.data)
-                    {
-                        console.log(res.data)
-                        this.$router.push({name: 'UserPage', params:{username: res.data}})
-                    }
-                }).catch(err => {
-                    console.info('报错的信息', err.response.message);
-                });
-
+            searchUser() {
+                this.$router.push({name: 'Post', params: {type:'user', keyword: this.formInline.keyword}});
             },
+
         },
         created()
         {

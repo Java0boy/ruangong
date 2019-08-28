@@ -32,6 +32,7 @@ import User from './components/User';
 import Post from './components/Post';
 Vue.use(VueRouter);
 
+
 //定义路由
 const routes = [
   {path:'/',component:Home},
@@ -42,7 +43,7 @@ const routes = [
   {path: '/u/:username/MdEditor/:blogId', name: 'MdEditorExsited', component: MdEditorExsited},
   {path: '/Home', name: 'Home', component: Home},
   {path: '/u/:username', name: 'UserPage', component: User},
-  {path: '/Post', name: 'Post', component: Post},
+  {path: '/search/:type/:keyword', name: 'Post', component: Post},
 
 
 ]

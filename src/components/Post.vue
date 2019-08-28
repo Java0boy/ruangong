@@ -12,18 +12,27 @@
       </div>
     </div>
     <div class="main">
-      <div  class="article-list">
+
+      <div v-for="blog in blogList" class="article-list">
         <div class="item">
           <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
-          <router-link :to="f"><div class="posttitle"></div></router-link>
+          <a><div class="posttitle" @click="gotoBlog(blog.username, blog.id)">{{blog.title}}</div></a>
 
-          <div class="status">发布于： | 作者：</div>
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
+          <div class="status">发布于： {{blog.date}}| 作者：{{blog.username}}</div>
+
           <div style="height: 10px;width: 100%"></div>
         </div>
+      </div>
 
+      <div v-for="user in userList" class="article-list">
+        <div class="item">
+          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
+          <a><div class="posttitle" @click="gotoUser(user.userName)">{{user.userName}}</div></a>
+
+          <div class="status">性别： {{user.sex}}| 年龄：{{user.age}}</div>
+
+          <div style="height: 10px;width: 100%"></div>
+        </div>
       </div>
 
     </div>
@@ -35,13 +44,72 @@
     export default {
         data(){
             return {
-
+                blogList: [],
+                userList: [],
             }
         },
 
         methods: {
+            gotoBlog(uname, addr)
+            {
+                this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr}});
+            },
+            gotoUser(uname)
+            {
+                this.$router.push({name: 'UserPage', params: {username: uname}});
+            },
+
+            getUserList(keyword)
+            {
+                this.$axios({
+                    url: '/rest/searchUser',//请求的地址
+                    method: 'post',//请求的方式
+                    data: {
+                        userName: keyword,  password: ''
+
+                    },//请求的表单数据
+                }).then(res => {
+                    if (res.data != null)
+                    {
+                        this.userList = res.data;
+                    }
+                });
+            },
+
+            getBlogList(keyword)
+            {
+                this.$axios({
+                    url: '/rest/getBlogByBlog',//请求的地址
+                    method: 'post',//请求的方式
+                    data: {
+                        title: keyword,
+                        username: '',
+                        date: '',
+                        blogMd: '',
+                        blogHtml: '',
+                        id: '',
+                    },//请求的表单数据
+                }).then(res => {
+                    if (res.data != null)
+                    {
+                        this.blogList = res.data;
+                    }
+                });
+            }
+
+        },
+        created() {
+            if (this.$route.params.type == 'blog')
+            {
+                this.getBlogList(this.$route.params.keyword);
+            }
+            else
+            {
+                this.getUserList(this.$route.params.keyword);
+            }
 
         }
+
     }
 </script>
 

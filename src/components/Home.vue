@@ -5,7 +5,7 @@
     </div>
     <div class="searchmain">
       <div class="inline">
-        <select class="searchchoose">
+        <select class="searchchoose" id="searchType">
           <option value = 1>博文</option>
           <option value = 2>作者</option>
         </select>
@@ -13,7 +13,7 @@
       <div class="inline"> <div style="width: 10px"></div> </div>
       <div class="inline"> <input v-model="formInline.keyword" class="searchbox" ></input> </div>
       <div class="inline"> <div style="width: 10px"></div></div>
-      <div class="inline"> <button class="searchbottom" @click="handleSubmit"><span class="searchtext">SEARCH</span></button> </div>
+      <div class="inline"> <button class="searchbottom" @click="searchSth"><span class="searchtext">SEARCH</span></button> </div>
     </div>
     <div class = "post">
       <div class = "listtitle">热门文章</div>
@@ -48,23 +48,27 @@
         },
 
         methods: {
-            handleSubmit() {
-                        this.$axios({
-                            url: '/rest/getUserMessage',//请求的地址
-                            method: 'post',//请求的方式
-                            data: {userName: this.formInline.keyword, password: ''},//请求的表单数据
-                        }).then(res => {
-                            console.info('后台返回的数据', res.data);
-                            if (res.data)
-                            {
-                                console.log(res.data)
-                                this.$router.push({name: 'UserPage', params:{username: res.data}})
-                            }
-                        }).catch(err => {
-                            console.info('报错的信息', err.response.message);
-                        });
-
+            searchUser() {
+                this.$router.push({name: 'Post', params: {type:'user', keyword: this.formInline.keyword}});
             },
+            searchBlog()
+            {
+                this.$router.push({name: 'Post', params: {type:'blog', keyword: this.formInline.keyword}});
+            },
+            searchSth()
+            {
+                var selectBox = document.getElementById('searchType');
+                // blog mode
+                if (selectBox.value == 1)
+                {
+                    this.searchBlog();
+                }
+                // user mode
+                else
+                {
+                    this.searchUser();
+                }
+            }
         }
     }
 
