@@ -36,12 +36,12 @@ Vue.use(VueRouter);
 const routes = [
   {path:'/',component:Home},
   { path: '/Login', name: 'Login', component: Login },
-  { path: '/:username/MdEditor', name: 'MdEditor', component: MdEditor},
+  { path: '/u/:username/MdEditor', name: 'MdEditor', component: MdEditor},
   {path:'/Signup', name: 'SignUp', component:Signup},
-  {path: '/:username/:blogId', name : 'SingleBlog', component: BlogPage},
-  {path: '/:username/MdEditor/:blogId', name: 'MdEditorExsited', component: MdEditorExsited},
+  {path: '/u/:username/:blogId', name : 'SingleBlog', component: BlogPage},
+  {path: '/u/:username/MdEditor/:blogId', name: 'MdEditorExsited', component: MdEditorExsited},
   {path: '/Home', name: 'Home', component: Home},
-  {path: '/:username', name: 'UserPage', component: User},
+  {path: '/u/:username', name: 'UserPage', component: User},
   {path: '/Post', name: 'Post', component: Post},
 
 

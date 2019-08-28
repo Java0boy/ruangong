@@ -13,62 +13,6 @@
     </div>
     <div class="main">
       <div v-for = "(intest,index) in res.data.data" class="article-list">
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="item">-->
-<!--          <router-link :to="{ path: '/Article' }"><div class="title">Lorem ipsum dolor sit amet dolor sit</div></router-link>-->
-<!--          <div class="status">发布于：2050-10-01 | 阅读：3500 | 标签：#HTML #CSS</div>-->
-<!--          <div class="content">-->
-<!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
-<!--          </div>-->
-<!--        </div>-->
         <div class="item">
           <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
           <router-link :to="{ path: '/Article/'+intest.postId} "><div class="posttitle">{{intest.postTitile}}</div></router-link>
