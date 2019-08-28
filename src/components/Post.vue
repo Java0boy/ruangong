@@ -12,12 +12,12 @@
       </div>
     </div>
     <div class="main">
-      <div v-for = "(intest,index) in res.data.data" class="article-list">
+      <div  class="article-list">
         <div class="item">
           <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
-          <router-link :to="{ path: '/Article/'+intest.postId} "><div class="posttitle">{{intest.postTitile}}</div></router-link>
+          <router-link :to="f"><div class="posttitle"></div></router-link>
 
-          <div class="status">发布于：{{intest.postTime}} | 作者：{{intest.postAuthor}} </div>
+          <div class="status">发布于： | 作者：</div>
 <!--          <div class="content">-->
 <!--            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore nemo ea, magnam qui incidunt maxime commodi eveniet quam soluta, deserunt molestiae officiis adipisci assumenda, rerum, exercitationem architecto natus nihil quia.-->
 <!--          </div>-->
@@ -35,21 +35,12 @@
     export default {
         data(){
             return {
-                res:"",//创建对象
+
             }
         },
-        mounted () {
-            this.getGoodsList()
-        },
+
         methods: {
-            getGoodsList () {
-                this.$axios.get('http://localhost:8080/api/result2').then((res) => {
-                    //用axios的方法引入地址
-                    this.res=res
-                    //赋值
-                    console.log(res)
-                })
-            }
+
         }
     }
 </script>
