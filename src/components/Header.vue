@@ -36,7 +36,7 @@
 <!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{Global.sso_flag}}</button></router-link>-->
 <!--          </div>-->
           <div class="inline">
-            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{yonghuming}}</button></router-link>
+            <router-link :to="{ path: '/Login' }"><button class = "headtext" id="headButton">登录</button></router-link>
           </div>
 
 
@@ -69,6 +69,7 @@
 
             }
         },
+
         methods: {
             handleSubmit() {
                 this.$axios({
@@ -87,7 +88,17 @@
                 });
 
             },
-        }
+        },
+        created()
+        {
+            this.$root.Bus.$on('changeStatus', value => {
+                var buttonText = document.getElementById('headButton');
+                buttonText.innerHTML = value;
+            })
+        },
+        beforeDestroy() {
+            this.$root.Bus.$off('changeStatus');
+        },
     };
 
 

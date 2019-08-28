@@ -60,5 +60,10 @@ new Vue({
   el: '#app',
   router,
   components: { App },
-  template: '<App/>'
+  template: '<App/>',
+  // Bus中央事件总线
+  data:
+  {
+    Bus: new Vue()
+  }
 })

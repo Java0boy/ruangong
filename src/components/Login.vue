@@ -83,7 +83,10 @@
                                 this.$Message.error('用户名不存在');
                             }
                             else
-                            {this.$router.push({name: 'UserPage', params:{username: this.formInline.userName}});}
+                            {
+                                this.submit(this.formInline.userName);
+                                this.$router.push({name: 'UserPage', params:{username: this.formInline.userName}});
+                            }
 
                         }).catch(err => {
                             console.info('报错的信息', err.response.message);
@@ -93,6 +96,12 @@
                     }
                 })
             },
+
+            submit(uname) {
+                // 事件名字自定义，用不同的名字区别事件
+                this.$root.Bus.$emit('changeStatus', uname);
+            },
+
 
           gosignup()
           {
