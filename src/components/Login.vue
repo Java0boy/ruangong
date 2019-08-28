@@ -22,6 +22,7 @@
       <br>
       <FormItem>
         <div class = "headtext" type="primary" @click="handleSubmit('formInline')">登录</div>
+
       </FormItem>
       <br>
       <FormItem>
@@ -32,6 +33,7 @@
   </div>
 </template>
 <script>
+  import Global from '../tool/Global';
     import crypto from 'crypto';
     export default {
         data() {
@@ -70,6 +72,8 @@
                         }).then(res => {
                             console.info('后台返回的数据', res.data);
                             // 返回true的话就跳转到编辑器（暂时
+                          Global.set_sso_lag(res.data);
+                          console.log(Global.sso_flag);
                             if(res.data=="22222222222"){
                                 console.log(res.data);
                                 this.$Message.warning('密码错误');

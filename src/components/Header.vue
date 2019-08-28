@@ -27,13 +27,20 @@
         <div class="inline">
 <!--          <router-link :to="{ path: '/User/1' }"><img class = "usericon" src="../assets/icon-user.png" width="40" height="40" style="display: inline-block; vertical-align: middle;"></router-link>-->
 <!--          <div class="usericon" @click=""></div>-->
-        <div class="inline">
-          <router-link :to="{ path: '/Login' }"><button class = "headtext">登录</button></router-link>
-        </div>
-        <div class="inline" style="width: 30px"></div>
 
-        <!--      <img src="../assets/icon-search.png" width="20" height="20" class="searchimg">-->
-        <!--        <i class="iconuser"></i>-->
+
+<!--          <div class="inline" v-if="yonghuming=='00000000000'">-->
+<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">登录</button></router-link>-->
+<!--          </div>-->
+<!--          <div class="inline" v-else>-->
+<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{Global.sso_flag}}</button></router-link>-->
+<!--          </div>-->
+          <div class="inline">
+            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{yonghuming}}</button></router-link>
+          </div>
+
+
+        <div class="inline" style="width: 30px"></div>
       </div>
     </div>
 
@@ -42,7 +49,7 @@
 </template>
 
 <script>
-
+  import Global from "../tool/Global";
 //     $("#search").focus(function(){
 //         $("#search").addClass("search");
 //         // $("#tubiao").addClass("tubiao");
@@ -58,6 +65,7 @@
                 formInline:{
                     keyword: '',
                 },
+                yonghuming:Global.sso_flag
 
             }
         },
