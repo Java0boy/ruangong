@@ -22,21 +22,16 @@
           <div class="isline"></div>
           <div class="userposttext">用户作品列表</div>
 
-          <div class="content">
+          <div class="content" v-for="blog in blogList">
+
             <div class="itemis">
               <a>
-              <div class="posttitle" @click="gotoBlog">{{blogInfo.title}}</div>
+              <div class="posttitle" @click="gotoBlog(blog.id)">{{blog.title}}</div>
               </a>
-              <div class="status">发布于：{{blogInfo.date}} | 作者：{{blogInfo.author}} </div>
-              <div id="layout">
-                <div id="articleView" >
-                  <div v-html="blogInfo.blogHtml">
-                    {{blogInfo.blogHtml}}
-                  </div>
-                </div>
-              </div>
-              <div style="height: 10px;width: 100%"></div>
+              <div class="status">发布于：{{blog.date}} | 作者：{{blog.username}} </div>
             </div>
+
+
           </div>
         </div>
 
@@ -56,13 +51,9 @@
 
                 },
 
-                blogInfo:{
-                    author: '',
-                    title: '',
-                    date: '',
-                    blogId: '',
-                    blogHtml: '',
-                }
+                blogList:[
+
+                ],
             }
         },
 
@@ -100,27 +91,9 @@
 
                     },//请求的表单数据
                 }).then(res => {
-                    console.log(res.data);
                     if (res.data != null)
                     {
-                        this.$nextTick(()=>{
-                            let editorView = editormd.markdownToHTML("articleView", {
-                                htmlDecode      : "style,script,iframe",  // you can filter tags decode
-                                emoji           : true,
-                                taskList        : true,
-                                tex             : true,  // 默认不解析
-                                flowChart       : true,  // 默认不解析
-                                sequenceDiagram : true,  // 默认不解析
-                                path : '/static/editor.md-master/lib/',
-                            });
-                        });
-
-                        this.blogInfo.author = res.data.username;
-                        this.blogInfo.title = res.data.title;
-                        this.blogInfo.date = res.data.date;
-                        this.blogInfo.blogId = res.data.id;
-                        this.blogInfo.blogHtml = res.data.blogHtml;
-
+                        this.blogList = res.data;
                     }
                 });
             },
@@ -130,9 +103,9 @@
                 this.$router.push({name: 'MdEditor', params:{username: this.$route.params.username}});
             },
 
-            gotoBlog()
+            gotoBlog(addr)
             {
-                this.$router.push({name: 'SingleBlog', params:{username: this.blogInfo.author, blogId: this.blogInfo.blogId}});
+                this.$router.push({name: 'SingleBlog', params:{username: this.userInfo.username, blogId: addr}});
             }
 
 

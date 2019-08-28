@@ -84,7 +84,7 @@
                             }
                             else
                             {
-                                this.submit(this.formInline.userName);
+                                this.submit('注销');
                                 this.$router.push({name: 'UserPage', params:{username: this.formInline.userName}});
                             }
 

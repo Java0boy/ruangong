@@ -16,13 +16,13 @@
     <div class="main">
       <div class="article">
         <h1 class="title">{{article.title}}</h1>
-        <div class="status">发布于：{{article.date}}， 作者：{{article.author}} <!--| 阅读：3500 | 标签：#HTML #CSS--></div><!--暂时还没有前面那些东西 -->
+        <div class="status">发布于：{{article.date}}， 作者：{{article.username}} <!--| 阅读：3500 | 标签：#HTML #CSS--></div><!--暂时还没有前面那些东西 -->
         <div class="content">
           <router-link :to="{name: 'MdEditorExsited', params: {username: this.$route.params.username, blogId: this.$route.params.blogId}}"><Button type="primary">Edit</Button></router-link>
           <div id="layout">
             <div id="articleView" >
-              <div v-html="article.contentHtml">
-                {{article.contentHtml}}
+              <div v-html="article.blogHtml">
+                {{article.blogHtml}}
               </div>
             </div>
           </div>
@@ -39,166 +39,78 @@
     export default {
         data() {
             return {
-                article:{
-                    contentHtml:'',
-                    title: '',
-                    date: '',
-                    author: '',
+                article: {},
+                formInline: {
+                    keyword: '',
                 },
-          formInline:{
-            keyword: '',
-          },
-          yonghuming:Global.sso_flag
             }
         },
-        methods: {
 
 
-            getArticleDetail(){
+                methods: {
 
-                var _this = this;
-                //var articleId = window.sessionStorage.getItem("articleId");
-                var _blogId = _this.$route.params.blogId;
-                console.log(_blogId);
-                this.$axios({
-                    url: '/rest/getBlogHtml',//请求的地址
-                    method: 'post',//请求的方式
-                    data: {
-                        title: '',
-                        username: '',
-                        date: '',
-                        blogMd: '',
-                        blogHtml: '',
-                        id: _blogId,
 
-                    },//请求的表单数据
-                }).then(res => {
-                        if (res.data != null)
-                        {
-                            this.article.contentHtml = res.data;
-                            this.$nextTick(()=>{
-                                let editorView = editormd.markdownToHTML("articleView", {
-                                    htmlDecode      : "style,script,iframe",  // you can filter tags decode
-                                    emoji           : true,
-                                    taskList        : true,
-                                    tex             : true,  // 默认不解析
-                                    flowChart       : true,  // 默认不解析
-                                    sequenceDiagram : true,  // 默认不解析
-                                    path : '/static/editor.md-master/lib/',
+                    getArticle() {
+
+                        var _this = this;
+                        //var articleId = window.sessionStorage.getItem("articleId");
+                        var _blogId = _this.$route.params.blogId;
+                        console.log(_blogId);
+                        this.$axios({
+                            url: '/rest/getBlog',//请求的地址
+                            method: 'post',//请求的方式
+                            data: {
+                                title: '',
+                                username: '',
+                                date: '',
+                                blogMd: '',
+                                blogHtml: '',
+                                id: _blogId,
+
+                            },//请求的表单数据
+                        }).then(res => {
+                            if (res.data != null) {
+                                this.article = res.data;
+                                this.$nextTick(() => {
+                                    let editorView = editormd.markdownToHTML("articleView", {
+                                        htmlDecode: "style,script,iframe",  // you can filter tags decode
+                                        emoji: true,
+                                        taskList: true,
+                                        tex: true,  // 默认不解析
+                                        flowChart: true,  // 默认不解析
+                                        sequenceDiagram: true,  // 默认不解析
+                                        path: '/static/editor.md-master/lib/',
+                                    });
                                 });
-                            });
 
-                        }
-                    });
+                            }
+                        });
 
-            },
+                    },
+                    handleSubmit() {
+                        this.$axios({
+                            url: '/rest/getUserMessage',//请求的地址
+                            method: 'post',//请求的方式
+                            data: {userName: this.formInline.keyword, password: ''},//请求的表单数据
+                        }).then(res => {
+                            console.info('后台返回的数据', res.data);
+                            if (res.data) {
+                                console.log(res.data)
+                                this.$router.push({name: 'UserPage', params: {username: res.data}})
+                            }
+                        }).catch(err => {
+                            console.info('报错的信息', err.response.message);
+                        });
 
-            getArticleTitle(){
+                    },
+                },
 
-                var _this = this;
-                //var articleId = window.sessionStorage.getItem("articleId");
-                var _blogId = _this.$route.params.blogId;
+                created() {
+                    var _this = this;
+                    _this.getArticle();
+                },
 
-                this.$axios({
-                    url: '/rest/getBlogTitle',//请求的地址
-                    method: 'post',//请求的方式
-                    data: {
-                        title: '',
-                        username: '',
-                        date: '',
-                        blogMd: '',
-                        blogHtml: '',
-                        id: _blogId,
-
-                    },//请求的表单数据
-                }).then(res => {
-                    if (res.data != null)
-                    {
-                        this.article.title = res.data;
-                    }
-                });
-            },
-
-            getArticleDate(){
-
-                var _this = this;
-                //var articleId = window.sessionStorage.getItem("articleId");
-                var _blogId = _this.$route.params.blogId;
-
-                this.$axios({
-                    url: '/rest/getBlogDate',//请求的地址
-                    method: 'post',//请求的方式
-                    data: {
-                        title: '',
-                        username: '',
-                        date: '',
-                        blogMd: '',
-                        blogHtml: '',
-                        id: _blogId,
-
-                    },//请求的表单数据
-                }).then(res => {
-                    if (res.data != null)
-                    {
-                        this.article.date = res.data;
-                    }
-                });
-            },
-
-            getArticleAuthor(){
-
-                var _this = this;
-                //var articleId = window.sessionStorage.getItem("articleId");
-                var _blogId = _this.$route.params.blogId;
-
-                this.$axios({
-                    url: '/rest/getBlogAuthor',//请求的地址
-                    method: 'post',//请求的方式
-                    data: {
-                        title: '',
-                        username: '',
-                        date: '',
-                        blogMd: '',
-                        blogHtml: '',
-                        id: _blogId,
-
-                    },//请求的表单数据
-                }).then(res => {
-                    if (res.data != null)
-                    {
-                        this.article.author = res.data;
-                    }
-                });
-            },
-          handleSubmit() {
-            this.$axios({
-              url: '/rest/getUserMessage',//请求的地址
-              method: 'post',//请求的方式
-              data: {userName: this.formInline.keyword, password: ''},//请求的表单数据
-            }).then(res => {
-              console.info('后台返回的数据', res.data);
-              if (res.data)
-              {
-                console.log(res.data)
-                this.$router.push({name: 'UserPage', params:{username: res.data}})
-              }
-            }).catch(err => {
-              console.info('报错的信息', err.response.message);
-            });
-
-          },
-        },
-
-        created() {
-            var _this = this;
-            _this.getArticleDetail();
-            _this.getArticleTitle();
-            _this.getArticleDate();
-            _this.getArticleAuthor();
-        }
-
-
-    }
+            }
 </script>
 
 
