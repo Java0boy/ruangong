@@ -26,11 +26,25 @@
 
         <div class="inline">
 
+
+
+<!--          <div class="inline" v-if="yonghuming=='00000000000'">-->
+<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">登录</button></router-link>-->
+<!--          </div>-->
+<!--          <div class="inline" v-else>-->
+<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{Global.sso_flag}}</button></router-link>-->
+<!--          </div>-->
+          <div class="inline" >
+<!--            <router-link :to="{ path: '/Login' }"><button class = "headtext" id="headButton">登录</button></router-link>-->
+            <button class = "headtext" id="headButton" @click="gozhuxiao()">登录</button>
+<!--
           <div class="inline">
             <router-link :to="{ path: '/Login' }"><button class = "headtext" id="headButton">登录</button></router-link>
+-->
           </div>
-
-
+<!--          <div class="inline" v-else>-->
+<!--            <button class = "headtext" id="headButton" @click="zhuxiao()">注销</button>-->
+<!--          </div>-->
         <div class="inline" style="width: 30px"></div>
       </div>
     </div>
@@ -41,22 +55,14 @@
 
 <script>
   import Global from "../tool/Global";
-//     $("#search").focus(function(){
-//         $("#search").addClass("search");
-//         // $("#tubiao").addClass("tubiao");
-//     });
-//
-//     $("#search").blur(function(){
-//         $("#search").removeClass("search");
-//         // $("#tubiao").removeClass("tubiao");
-//      });
+
     export default {
         data(){
             return {
                 formInline:{
                     keyword: '',
                 },
-                yonghuming:Global.sso_flag
+                yonghuming:Global.sso_flag,
 
             }
         },
@@ -66,12 +72,34 @@
                 this.$router.push({name: 'Post', params: {type:'user', keyword: this.formInline.keyword}});
             },
 
+          gozhuxiao()
+          {
+            // Global.log()
+            if(document.getElementById('headButton').innerHTML=="登录")
+              this.$router.push({path: '/Login'})
+            else
+            {
+              document.getElementById('headButton').innerHTML="登录";
+              Global.set_sso_lag("00000000000");
+                console.log(Global.sso_flag);
+              this.$router.push({path:'/Home'});
+            }
+
+          },
+
+
+
+
+
         },
         created()
         {
             this.$root.Bus.$on('changeStatus', value => {
                 var buttonText = document.getElementById('headButton');
+              // Global.set_sso_lag("00000000000");
                 buttonText.innerHTML = value;
+                console.log(Global.sso_flag);
+                // Global.set_sso_lag("00000000000");
             })
         },
         beforeDestroy() {
