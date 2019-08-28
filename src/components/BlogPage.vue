@@ -1,50 +1,6 @@
 <template>
   <div>
-  <div class = "header" style="background: rgb(166,218,221);height:100%;min-height: 70px;max-height: 100px" >
-    <div class = "content">
-      <div class="headleft">
-        <!--      <img src="../assets/logoblog.png" width="50" height="50">-->
-        <div class="inline" style="width: 30px"></div>
-        <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-circle-title.png" width="45" height="45" style="display: inline-block; vertical-align: middle;"></router-link></div>
-        <div class="inline" style="width: 10px"></div>
-        <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-test-title.png" height="40" style="display: inline-block; vertical-align: middle;"></router-link></div>
-        <div class="inline" style="width: 40px"></div>
 
-        <div class="inline"><router-link :to="{ name: 'Post' }"><div class="headtext">所有文章</div></router-link></div>
-        <!--        <div class="inline"><router-link :to="{ path: '/Post' }"><el-button round>圆角按钮</el-button></router-link></div>-->
-
-      </div>
-      <div class="headright">
-
-        <div class="inline">
-          <span class="inputSearch" id="searchInput"><input class="searchbox" v-model="formInline.keyword"></input></span>
-        </div>
-        <div class="inline">
-          <div class="searchicon" @click="handleSubmit"></div>
-        </div>
-        <div class="inline" style="width: 30px">
-        </div>
-
-        <div class="inline">
-          <!--          <router-link :to="{ path: '/User/1' }"><img class = "usericon" src="../assets/icon-user.png" width="40" height="40" style="display: inline-block; vertical-align: middle;"></router-link>-->
-          <!--          <div class="usericon" @click=""></div>-->
-
-
-          <div class="inline" v-if="yonghuming=='00000000000'">
-            <router-link :to="{ path: '/Login' }"><button class = "headtext">登录</button></router-link>
-          </div>
-          <div class="inline" v-if="yonghuming!='00000000000'">
-            <router-link :to="{ path: '/Login' }"><button class = "headtext">{{Global.sso_flag}}</button></router-link>
-          </div>
-
-
-
-          <div class="inline" style="width: 30px"></div>
-        </div>
-      </div>
-
-    </div>
-  </div>
   <div class="postbody">
     <div class="side-bar">
       <div class="header">
