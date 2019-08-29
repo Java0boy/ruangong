@@ -9,29 +9,77 @@
       <div>
 <!--        <h1> &#45;&#45;&#45;&#45;&#45;&#45;Sign Up&#45;&#45;&#45;&#45;&#45;&#45;</h1>-->
       </div>
-      <FormItem prop="userName">
+
+<!--      Email-->
+      <FormItem>
         <div>
-          <Input type="text" v-model="formInline.userName" placeholder="Username" >
-            <Icon type="ios-person-outline" slot="prepend"></Icon>
+          <Input placeholder="用户邮箱">
+            <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
           </Input>
         </div>
       </FormItem>
       <br>
+      <FormItem>
+        <div>
+          <Input placeholder="验证码">
+            <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
+          </Input>
+        </div>
+      </FormItem>
+
+      <FormItem>
+        <div>
+          <button>
+            获取验证码
+          </button>
+        </div>
+      </FormItem>
+      <br>
+
+
+
+      <FormItem prop="userName">
+        <div>
+          <Input v-model="formInline.userName" placeholder="Username">
+<!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
+          </Input>
+
+        </div>
+      </FormItem>
+      <br>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="Password">
-          <Icon type="ios-lock-outline" slot="prepend"></Icon>
-        </Input>
+<!--        <div>-->
+          <Input  type="password" v-model="formInline.password" placeholder="Password">
+            <!--          <Icon type="ios-lock-outline" slot="prepend"></Icon>-->
+          </Input>
+<!--        </div>-->
       </FormItem>
       <br>
       <FormItem prop="sex">
 <!--        <Input type="text" v-model="formInline.sex" placeholder="sex">-->
-        <div> <Icon type="ios-lock-outline" slot="prepend"></Icon></div>
-         <div >
-           <select  v-model="formInline.sex" placeholder="sex" style="width: 150px;height: 30px" >
-            <option value ="男">男</option>
-            <option value ="女">女</option>
 
-          </select>
+         <div>
+           <div id="example-4"  style="display: inline-block">
+<!--             <div class="inline"> <Icon type="ios-lock-outline" slot="prepend"></Icon></div>-->
+             <div class="inline">
+               <input type="radio" id="男" value="男" v-model="formInline.sex" >
+               <label for="男">男</label>
+             </div>
+
+<!--             <br>-->
+<!--             <div class="inline" style="width: 50px;height: 100px"></div>-->
+             <div class="inline">
+               <input type="radio" id="女" value="女" v-model="formInline.sex">
+               <label for="女">女</label>
+             </div>
+<!--             <br>-->
+             <span class="inline">Picked: {{ formInline.sex }}</span>
+           </div>
+           <!--           <select  v-model="formInline.sex" placeholder="sex" style="width: 150px;height: 30px" >-->
+<!--            <option value ="男">男</option>-->
+<!--            <option value ="女">女</option>-->
+
+<!--          </select>-->
          </div>
 <!--        </Input>-->
       </FormItem>
@@ -226,6 +274,15 @@
   }
 </script>
 <style>
+  .userinput{
+    border: #0D3349 5px;
+    background: #0D3349;
+  }
+  .inline{
+    display: inline;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
   .headtext{
     font-size: 15px;
     height: 35px;
