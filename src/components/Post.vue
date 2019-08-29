@@ -115,7 +115,6 @@
             {
                 this.getUserList(this.$route.params.keyword);
             }
-
         }
 
     }

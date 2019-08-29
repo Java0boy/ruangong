@@ -75,6 +75,7 @@
                 }
                 else {
                     this.$router.push({name: 'Post', params: {type: 'user', keyword: this.formInline.keyword}});
+                    this.$router.go(0);
                 }
             },
 
