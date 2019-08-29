@@ -13,7 +13,7 @@
     </div>
     <div class="main">
       <!--      //搜索失败-->
-      <div class="article" style="text-align: center" v-if="blogList.length == 0 && userList.length == 0">
+      <div class="article" style="text-align: center;padding: 20px 30px" v-if="blogList.length == 0 && userList.length == 0">
         <div>
           <img src="../assets/logo-large-found.png" width=200>
         </div>
