@@ -12,6 +12,15 @@
       </div>
     </div>
     <div class="main">
+      <!--      //搜索失败-->
+      <div class="article" style="text-align: center" v-if="blogList.length == 0 && userList.length == 0">
+        <div>
+          <img src="../assets/logo-large-found.png" width=200>
+        </div>
+        <div style="color:#3e606b;font-size: 35px;margin-top: 20px;font-style: italic;font-weight: bold">No search results</div>
+        <div style="color:#3e606b;margin-top: 20px;letter-spacing: 3px;color: #66686e">没有找到{{this.$route.params.keyword}}相关的搜索结果</div>
+      </div>
+      <!--      //-->
       <div v-for="blog in blogList" class="article-list">
         <div class="item">
           <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
