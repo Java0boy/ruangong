@@ -216,15 +216,19 @@
     color: white;
     margin-right: 15px;
     height: 35px;
-    width: 200px;
+    width: 35px;
     border-radius:15px;
     vertical-align:middle;
-    background: rgba(106, 160, 178, 0);
+    background: url("../assets/icon-search.png");
+    background-repeat: no-repeat;
+    background-size: 25px 25px;
+    background-position: center;
+    /*background: rgba(106, 160, 178, 1);*/
     border: 2px solid white;
 
     font-size: 18px;
     padding-left: 5px;
-    transition: border-color 0.5s ,border-right-width 0.5s , color 0.5s;
+    transition: border-color 0.5s ,border-right-width 0.5s , color 0.5s,width 1s ease;
 
     /*background-image: url("../assets/icon-search.png");*/
     /*background-repeat: no-repeat;*/
@@ -233,9 +237,11 @@
     /*background-position-x: 172px;*/
   }
   .searchbox:hover{
+    background: rgba(255, 255, 255, 0);
     border-color: #6AA0B2;
 
     color: #6AA0B2;
+    width: 200px;
   }
   .iconuser{
     position: absolute;

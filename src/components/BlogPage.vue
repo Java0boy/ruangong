@@ -14,6 +14,18 @@
       </div>
     </div>
     <div class="main">
+
+
+<!--      //搜索失败-->
+      <div class="article" style="text-align: center">
+        <div>
+          <img src="../assets/logo-large-found.png" width=200>
+        </div>
+        <div style="color:#3e606b;font-size: 35px;margin-top: 20px;font-style: italic;font-weight: bold">No search results</div>
+        <div style="color:#3e606b;margin-top: 20px;letter-spacing: 3px;color: #66686e">没有找到{{}}相关的搜索结果</div>
+      </div>
+<!--      //-->
+
       <div class="article">
         <h1 class="title">{{article.title}}</h1>
         <div class="status">发布于：{{article.date}}， 作者：{{article.username}} <!--| 阅读：3500 | 标签：#HTML #CSS--></div><!--暂时还没有前面那些东西 -->
@@ -294,7 +306,7 @@
   /*#searchTubiao a{color:#AAAAAA;text-decoration:none;}*/
   /*#searchTubiao a:hover {text-decoration:none;color: #0088CF;}*/
   /*!*#searchTubiao .tubiao{color: #0088CF;}*!*/
-#layout{
+  #layout{
     text-align: left;
   }
   .postbody {
@@ -360,8 +372,8 @@
     margin-right: 30%;
     background: #fff;
     padding: 20px 30px;
-    -webkit-box-shadow: 0 0 3px 2px rgba(0,0,0,.2);
-    box-shadow: 0 0 3px 2px rgba(0,0,0,.2);
+    -webkit-box-shadow: 0 0 10px 0px rgba(0,0,0,.1);
+    box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
   }
 
   .article-list .item  {

@@ -12,7 +12,6 @@
       </div>
     </div>
     <div class="main">
-
       <div v-for="blog in blogList" class="article-list">
         <div class="item">
           <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
