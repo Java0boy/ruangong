@@ -17,6 +17,7 @@
         <div style="height: 100%;width: 100%;padding: 20px 30px">
           <h1 class="title">{{userInfo.username}}</h1>
           <div class="status">性别：{{userInfo.sex}}，年龄：{{userInfo.age}}</div>
+          <div class="headtext" @click="toGuanzhu" id="guanzhuButton" >{{this.$route.params.ret}}</div>
           <div class="isline"></div>
           <div class="headtext" @click="toEdit">发布博文</div>
           <div class="isline"></div>
@@ -41,6 +42,7 @@
 </template>
 
 <script>
+  import Global from '../tool/Global';
     export default {
         data(){
             return {
@@ -54,6 +56,10 @@
                 blogList:[
 
                 ],
+              guan:{
+                guanzhuzhe:'',
+                beiguanzhu:'',
+              }
             }
         },
 
@@ -97,7 +103,73 @@
                     }
                 });
             },
+          toGuanzhu()
+          {
+            if(document.getElementById('guanzhuButton').innerText=="关注")
+            {
+              console.log(Global.sso_flag);
+              console.log(this.$route.params.username);
+              this.$axios({
+                url:'/rest/guanzhu',
+                method:'post',
+                data:{
+                  interest:Global.sso_flag,interested:this.$route.params.username,
+                }
+              }).then(res=>
+              {
+                console.log(res.data);
+                if(res.data)
+                {
+                  console.log(Global.sso_flag);
+                  console.log(this.$route.params.username);
+                  this.$Message.success('关注成功');
+                  document.getElementById('guanzhuButton').innerHTML="取消关注";
+                }
+                else
+                {
+                  this.$Message.warning('关注失败');
+                }
 
+              });
+              //
+              // console.log(Global.sso_flag);
+              //     console.log(this.$route.params.username);
+              //     this.$Message.success('关注成功');
+              //     document.getElementById('guanzhuButton').innerHTML="取消关注";
+            }
+            else if(document.getElementById('guanzhuButton').innerText=="取消关注"){
+
+
+              this.$axios({
+                url:'/rest/quxiaoguanzhu',
+                method:'post',
+                data:{
+                  interest:Global.sso_flag,interested:this.$route.params.username,
+                }
+              }).then(res=>
+              {
+                console.log(res.data);
+                if(res.data)
+                {
+                  console.log(Global.sso_flag);
+                  console.log(this.$route.params.username);
+                  this.$Message.success('取消成功');
+                  document.getElementById('guanzhuButton').innerHTML="关注";
+                }
+                else
+                {
+                  this.$Message.warning('取消失败');
+                }
+
+              });
+
+              //
+              // console.log(Global.sso_flag);
+              //     console.log(this.$route.params.username);
+              //     this.$Message.success('取消成功');
+              //     document.getElementById('guanzhuButton').innerHTML="关注";
+            }
+          },
             toEdit()
             {
                 this.$router.push({name: 'MdEditor', params:{username: this.$route.params.username}});

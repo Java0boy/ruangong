@@ -49,6 +49,7 @@
 </template>
 
 <script>
+  import Global from '../tool/Global';
     export default {
         data(){
             return {
@@ -64,7 +65,25 @@
             },
             gotoUser(uname)
             {
-                this.$router.push({name: 'UserPage', params: {username: uname}});
+              //
+              console.log(Global.sso_flag);
+              console.log(uname);
+              this.$axios({
+                url:'/rest/chaguanzhu',
+                method:'post',
+                data:{
+                  interest:Global.sso_flag,interested:uname,
+                }
+              }).then(res=>
+              {
+                console.log(res);
+                var r;
+                if(res.data==false) r="取消关注";
+                else if(res.data==true) r="关注";
+                else r=uname;
+                this.$router.push({name: 'UserPage', params: {username: uname,ret:r}});
+              });
+              //
             },
 
             getUserList(keyword)
