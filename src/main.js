@@ -30,6 +30,7 @@ import MdEditorExsited from "./components/MdEditorExsited";
 import Home from './components/Home';
 import User from './components/User';
 import Post from './components/Post';
+import Hello from './components/HelloWorld'
 Vue.use(VueRouter);
 
 
@@ -44,6 +45,7 @@ const routes = [
   {path: '/Home', name: 'Home', component: Home},
   {path: '/u/:username', name: 'UserPage', component: User},
   {path: '/search/:type/:keyword', name: 'Post', component: Post},
+  {path: '/hello', name: 'hello', component: Hello},
 
 
 ]
