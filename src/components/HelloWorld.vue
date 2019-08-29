@@ -1,113 +1,51 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <form>
+      <input type="file" @change="getFile($event)">
+      <button class="button button-primary button-pill button-small" @click="submit($event)">提交</button>
+    </form>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
-    }
-  }
-}
-</script>
+    import axios from 'axios';
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+    export default {
+        name: 'HelloWorld',
+        data() {
+            return {
+                msg: 'Welcome to Your Vue.js App',
+                file: ''
+            }
+        },
+        methods: {
+            getFile: function (event) {
+                this.file = event.target.files[0];
+                console.log(this.file);
+            },
+            submit: function (event) {
+                //阻止元素发生默认的行为
+                event.preventDefault();
+                let formData = new FormData();
+                formData.append("file", this.file);
+                axios.post('rest/singlefile', formData)
+                    .then(function (response) {
+                        alert(response.data);
+                        console.log(response);
+                        window.location.reload();
+                    })
+                    .catch(function (error) {
+                        alert("上传失败");
+                        console.log(error);
+                        window.location.reload();
+                    });
+            }
+        },
+        // test
+        created()
+        {
+
+        }
+    }
+</script>
