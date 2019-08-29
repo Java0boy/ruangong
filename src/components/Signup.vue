@@ -11,17 +11,17 @@
       </div>
 
 <!--      Email-->
-      <FormItem>
+      <FormItem prop="email">
         <div>
-          <Input placeholder="用户邮箱">
+          <Input placeholder="用户邮箱" v-model="formInline.email">
             <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
           </Input>
         </div>
       </FormItem>
       <br>
-      <FormItem>
+      <FormItem prop="vertifyCode">
         <div>
-          <Input placeholder="验证码">
+          <Input placeholder="验证码" v-model="formInline.vertifyCode">
             <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
           </Input>
         </div>
@@ -29,7 +29,7 @@
 
       <FormItem>
         <div>
-          <button>
+          <button @click="getVertifyCode" type="button">
             获取验证码
           </button>
         </div>
@@ -213,11 +213,14 @@
     data() {
       return {
         formInline: {
-          userName: '',
-          password: '',
-          sex:'',
-          age:'',
+            userName: '',
+            password: '',
+            sex:'',
+            age:'',
+            email:'',
+            vertifyCode: '',
         },
+          tmpCode: '',
         ruleInline: {
           userName: [
             {required: true, message: 'Please fill in the user name', trigger: 'blur'}
@@ -237,6 +240,17 @@
           age:[
             {required: true, message: 'Please fill in the user age', trigger: 'blur'}
           ],
+            email: [
+                {required: true, message: 'Please fill in your email address', trigger: 'blur'},
+                {
+                    pattern : /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
+                    message: '错误的邮箱格式',
+                    trigger: 'blur'
+                }
+        ],
+            vertifyCode: [
+                {required: true, message: 'Please fill in the vertify code', trigger: 'blur'},
+            ],
         }
       }
     },
@@ -244,32 +258,65 @@
           handleSubmitsignup(name) {
               this.$refs[name].validate((valid) => {
                   if (valid) {
-                      var md5 = crypto.createHash("md5");
-                      md5.update(this.formInline.password);
-                      var hashed = md5.digest('hex');
-                      this.$axios({
-                          url: '/rest/signup',//请求的地址
-                          method: 'post',//请求的方式
-                          data: {userName: this.formInline.userName, password: hashed, sex: this.formInline.sex, age: this.formInline.age}//请求的表单数据
-                      }).then(res => {
-                          console.info('后台返回的数据', res.data);
-                          // 返回true的话就跳转到编辑器（暂时
-                          if(res.data){
-                              this.$router.push({path: '/Login'});
-                          }
-                          else
-                          {
-                              this.$Message.error('用户名已存在');
-                          }
+                      if (this.formInline.vertifyCode == this.tmpCode) {
+                          var md5 = crypto.createHash("md5");
+                          md5.update(this.formInline.password);
+                          var hashed = md5.digest('hex');
+                          this.$axios({
+                              url: '/rest/signup',//请求的地址
+                              method: 'post',//请求的方式
+                              data: {
+                                  userName: this.formInline.userName,
+                                  password: hashed,
+                                  sex: this.formInline.sex,
+                                  age: this.formInline.age,
+                                  mail: this.formInline.email
+                              }//请求的表单数据
+                          }).then(res => {
+                              console.info('后台返回的数据', res.data);
+                              // 返回true的话就跳转到编辑器（暂时
+                              if (res.data) {
+                                  this.$router.push({path: '/Login'});
+                              } else {
+                                  this.$Message.error('用户名已存在');
+                              }
 
-                      }).catch(err => {
-                          console.info('报错的信息', err.response.message);
-                      });
-                  } else {
+                          }).catch(err => {
+                              console.info('报错的信息', err.response.message);
+                          });
+                      }
+                      else
+                      {
+                          this.$message.error('验证码错误!');
+                      }
+
+                  }
+                  else {
                       this.$Message.error('表单校验失败!');
                   }
+
               })
+          },
+
+          getVertifyCode()
+          {
+              this.$axios({
+                  url: '/rest/mail',//请求的地址
+                  method: 'post',//请求的方式
+                  data: {
+                      userName:'',
+                      password:'',
+                      sex: '',
+                      age: '',
+                      mail: this.formInline.email
+                  },//请求的表单数据
+              }).then(res => {
+                  if (res.data != null) {
+                      this.tmpCode = res.data;
+                  }
+              });
           }
+
       }
   }
 </script>
