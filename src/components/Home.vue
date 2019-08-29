@@ -44,6 +44,7 @@
                    keyword: '',
                },
 
+
             }
         },
 
@@ -57,16 +58,20 @@
             },
             searchSth()
             {
-                var selectBox = document.getElementById('searchType');
-                // blog mode
-                if (selectBox.value == 1)
+                if (this.formInline.keyword.trim().length == 0)
                 {
-                    this.searchBlog();
+                    this.$Message.error('请输入检索关键词');
                 }
-                // user mode
-                else
-                {
-                    this.searchUser();
+                else {
+                    var selectBox = document.getElementById('searchType');
+                    // blog mode
+                    if (selectBox.value == 1) {
+                        this.searchBlog();
+                    }
+                    // user mode
+                    else {
+                        this.searchUser();
+                    }
                 }
             }
         }

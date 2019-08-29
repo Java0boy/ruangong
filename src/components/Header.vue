@@ -69,7 +69,13 @@
 
         methods: {
             searchUser() {
-                this.$router.push({name: 'Post', params: {type:'user', keyword: this.formInline.keyword}});
+                if (this.formInline.keyword.trim().length == 0)
+                {
+                    this.$message.error('请输入检索关键词');
+                }
+                else {
+                    this.$router.push({name: 'Post', params: {type: 'user', keyword: this.formInline.keyword}});
+                }
             },
 
           gozhuxiao()
