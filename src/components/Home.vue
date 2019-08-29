@@ -11,7 +11,7 @@
         </select>
       </div>
       <div class="inline"> <div style="width: 10px"></div> </div>
-      <div class="inline"> <input v-model="formInline.keyword" class="searchbox" ></input> </div>
+      <div class="inline"> <input v-model="formInline.keyword" class="searchbox" @keyup.13="searchSth"></input> </div>
       <div class="inline"> <div style="width: 10px"></div></div>
       <div class="inline"> <button class="searchbottom" @click="searchSth"><span class="searchtext">SEARCH</span></button> </div>
     </div>
