@@ -16,11 +16,11 @@
       <div class="headright">
 
         <div class="inline">
-          <span class="inputSearch" id="searchInput"><input class="searchbox" v-model="formInline.keyword"></input></span>
+          <span class="inputSearch" id="searchInput"><input class="searchbox" v-model="formInline.keyword" @keyup.13="searchUser"></input></span>
         </div>
-        <div class="inline">
-          <div class="searchicon" @click="searchUser"></div>
-        </div>
+<!--        <div class="inline">-->
+<!--          <div class="searchicon" @click="searchUser"></div>-->
+<!--        </div>-->
         <div class="inline" style="width: 30px">
         </div>
 
@@ -211,9 +211,10 @@
     border: 2px solid #ebefe4;
   }
   .searchbox {
-    font-family: "Yu Gothic UI";
+    placeholder:"回车搜索";
+    /*font-family: "Yu Gothic UI";*/
     text-align: left;
-    color: white;
+    color: rgba(255,255,255,0);
     margin-right: 15px;
     height: 35px;
     width: 35px;
