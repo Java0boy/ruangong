@@ -42,10 +42,11 @@
         <div class="isline" style="margin-bottom: 20px"></div>
 
         <div style="width:100%;display: table">
-          <input style="display: table-cell" class="commitbox" v-model="comment.content"></input>
+          <input style="padding-left:15px;display: table-cell" class="commitbox" v-model="comment.content"></input>
           <div style="display: table-cell"  class="commitup">
             <span class="fabiaopinglun" @click="sendComment">发表<br>评论</span>
           </div>
+<!--          <div style="width: 10%;height: 100%"></div>-->
         </div>
 
 <!--        v-for-->
@@ -54,7 +55,7 @@
           <div class="itemis">
             <div class="commitname" style="font-size: 10px;font-style: italic;color: rgba(0,0,0,0.51)">{{comment.username}}</div>
             <div class="commitcontent" style="font-size: 15px">{{comment.comment}}</div>
-            <div class="status">{{comment.date}}</div>
+            <div class="status"style="font-size: 12px">{{comment.date}}</div>
           </div>
         </div>
 
@@ -344,6 +345,7 @@
     margin-bottom: 20px;
   }
   .commitbox{
+    outline: none;
     width: 85%;
     height: 50px;
     background: #f1f1f1;

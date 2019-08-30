@@ -32,12 +32,12 @@
 
 
 <!--    </div>-->
-    <div class="bodyleft">
-      <div class="leftcontentall">
-        <div class="leftcontent-logo"></div>
-        <div class="leftcontent-picture"></div>
-      </div>
-    </div>
+<!--    <div class="bodyleft">-->
+<!--      <div class="leftcontentall">-->
+<!--        <div class="leftcontent-logo"></div>-->
+<!--        <div class="leftcontent-picture"></div>-->
+<!--      </div>-->
+<!--    </div>-->
 
     <div class="bodyright">
 
@@ -46,7 +46,11 @@
 <!--        <option value = 2>作者</option>-->
 <!--      </select>-->
       <div>
-        <div id="example-4"  style="display: table;padding-left: 10px;margin-bottom: 15px;">
+        <div style="margin: 20px">
+          <img src="../assets/logo-large.png" width="250">
+        </div>
+        <div id="example-4"  style="width:100%;display: table;padding-left: 10px;">
+          <div class="inline" style="width: 30%"></div>
           <div class="inline">
             <div class="textsearch">Find what you need --></div>
           </div>
@@ -58,11 +62,12 @@
             <input type="radio" id="用户" value=2 v-model="formInline.type">
             <label class="radiotext" for="用户">用户</label>
           </div>
+          <div class="inline" style="width: 30%"></div>
 <!--          <span class="inline">Picked: {{ formInline.type }}</span>-->
         </div>
       </div>
 
-      <div class="searchmain" style="text-align: left">
+      <div class="searchmain" style="text-align: center;margin-top: 20px">
         <input v-model="formInline.keyword" class="searchbox" @keyup.13="searchSth"></input>
 <!--        <button class="searchbottom" @click="searchSth"><span class="searchtext">SEARCH</span></button>-->
       </div>
@@ -155,12 +160,13 @@
     font-family: "Source Han Sans CN";
     height: 100%;
     text-align: center;
-    background: #000000;
+    background: #343434;
+    padding: 20px;
   }
   .bodyleft{
     float: left;
-    height: 100%;;
-    width: 50%;
+    height: 0%;;
+    width: 0%;
     padding-left: 20px;
     padding-bottom: 20px;
 
@@ -168,9 +174,9 @@
   .bodyright{
     float: right;
     height: 100%;
-    background: #000000;
-    width: 50%;
-    text-align: left;
+    background: #343434;
+    width: 100%;
+    text-align: center;
   }
   .leftcontentall{
     width: 100%;
@@ -222,12 +228,11 @@
     text-align-last: center;
   }
   .searchbox {
+    outline:none;
     height: 45px;
-    width: 100px;
+    width:450px;
     border:1px solid #ffffff;
-    border-left: 0px;
-    border-top-right-radius:30px;
-    border-bottom-right-radius:30px;
+    border-radius: 35px;
     /*border-right-width: 10px;*/
     vertical-align:middle;
     font-size: 16px;
@@ -238,8 +243,8 @@
     letter-spacing: 2px;
   }
   .searchbox:hover {
-    width: 300px;
-    border-color: #a6dadd;
+    width: 550px;
+    /*border-color: #a6dadd;*/
   }
   .textsearch{
     /*margin-left: 10px;*/
@@ -261,8 +266,8 @@
     color: white;
   }
   .inline{
-    display: inline-block;
-    vertical-align:middle
+    display: inline-table;
+    vertical-align:middle;
   }
   /*.searchtext{*/
   /*  font-size: 18px;*/
@@ -270,7 +275,7 @@
   /*  font-style: italic;*/
   /*}*/
   .listtitle{
-    text-align: right;
+    text-align: center;
     margin-bottom: 30px;
     font-size: 35px;
     color: #ffffff;
@@ -307,14 +312,14 @@
     font-size: 10px;
   }
   .post{
-    text-align: right;
+    text-align: center;
     margin-right: 10px;
     margin-bottom: 20px;
   }
   .rightbottom{
-    position: absolute;
+    position: center;
     bottom: 0;
-    right: 0;
+
     margin-bottom: 20px;
   }
 

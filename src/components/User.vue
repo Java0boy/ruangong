@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="main" style="display:flex">
-      <div class="article" style="width: 70%;text-align: left;border-top:5px solid #000000;">
+      <div class="article" style="width: 70%;text-align: left;border-top:5px solid #343434;">
         <!--        <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
         <div style="height: 100%;width: 100%;padding: 20px 30px">
           <div class="userheadcontent">
@@ -31,21 +31,25 @@
           </div>
         </div>
 
-
           <div class="isline"></div>
-          <div style="display: table;line-height: 50px">
+<!--          用户操作可以直接隐藏这个id-->
+          <div id="useraction" style="display: table;line-height: 50px">
             <div style="display:table-cell;vertical-align: center">
               <div class="headtext" @click="toEdit">发布博文</div></div>
-            <div style="display:table-cell;vertical-align: center;width: 20px"></div>
+            <div style="display:table-cell;vertical-align: center;width: 15px"></div>
             <div style="display:table-cell;vertical-align: center">
-              <div class="headtext" @click="toEdit">发布资源</div></div>
-
+              <div class="headtext" @click="toEdit">发布资源</div>
+            </div>
+            <div style="display:table-cell;vertical-align: center;width: 15px"></div>
+<!--            上传头像-->
+            <div style="display:table-cell;vertical-align: center">
+              <div class="headtext" @click="toEdit">上传头像</div>
+            </div>
           </div>
 
-
           <div class="isline"></div>
-          <div class="usercontent">
 
+          <div class="usercontent">
             <div class="userleft">
               <div class="userposttext">用户作品列表</div>
               <div class="content" v-for="blog in blogList">
@@ -80,7 +84,7 @@
       </div>
 
     </div>
-    <div class="article" style="flex: 1;padding: 20px 20px;border-top:5px solid #000000;">
+    <div class="article" style="flex: 1;padding: 20px 20px;border-top:5px solid #343434;">
       <div class="isline-2"></div>
       <!--        <div class="userright">-->
       <div class="userposttext">用户资源列表</div>
@@ -365,8 +369,8 @@
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
-    color: black;
-    border: 1px solid black;
+    color: #343434;
+    border: 1px solid #343434;
     transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
   .headtext:hover{
@@ -379,13 +383,13 @@
   .headtext:active{
 
     border-radius: 35px;
-    background: black;
+    background: #343434;
     color: white;
-    border: 1px solid black;
+    border: 1px solid #343434;
     /*border: 0px solid white;*/
   }
   .userposttext{
-    color: #000000;
+    color: #343434;
     font-size: 15px;
     font-weight: bold;
   }
@@ -452,6 +456,7 @@
   .side-bar {
     float: left;
     width: 20%;
+    height: 100%;
     position: fixed;
   }
 

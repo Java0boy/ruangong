@@ -1,34 +1,34 @@
 <template>
-  <div>
-  <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-    <div >
-    </div>
-    <div class="outer_label">
-      <img class="inner_label login_logo" src="../assets/logo-large.png" style="margin: 30px 30px" width="200">
-    </div>
-    <div class="login_form">
+  <div class="Loginbody">
+    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+      <div >
+      </div>
+      <div class="outer_label">
+        <img class="inner_label login_logo" src="../assets/logo-large-black.png" style="margin: 30px 30px" width="170">
+      </div>
+      <div class="login_form">
 
-      <FormItem prop="userName">
-        <Input type="text" v-model="formInline.userName" placeholder="Username" >
-<!--          <Icon type="ios-person-outline" slot="prepend"></Icon>-->
-        </Input>
-      </FormItem>
-      <br>
-      <FormItem prop="password">
-        <Input class="Login1" type="password" v-model="formInline.password" placeholder="Password">
-<!--          <Icon type="ios-lock-outline" slot="prepend"></Icon>-->
-        </Input>
-      </FormItem>
-      <br>
-      <FormItem>
-        <div class = "headtext" type="primary" @click="handleSubmit('formInline')">登录</div>
-      </FormItem>
-      <br>
-      <FormItem>
-        <span>没有账号？ 立即  </span><router-link   :to="{ path: '/Signup' }"><span type="primary" @click="gosignup()">注册</span></router-link>
-      </FormItem>
-    </div>
-  </Form>
+        <FormItem prop="userName">
+          <Input type="text" v-model="formInline.userName" placeholder="Username" >
+  <!--          <Icon type="ios-person-outline" slot="prepend"></Icon>-->
+          </Input>
+        </FormItem>
+        <br>
+        <FormItem prop="password">
+          <Input class="Login1" type="password" v-model="formInline.password" placeholder="Password">
+  <!--          <Icon type="ios-lock-outline" slot="prepend"></Icon>-->
+          </Input>
+        </FormItem>
+        <br>
+        <FormItem>
+          <div class = "headtext" type="primary" @click="handleSubmit('formInline')">登录</div>
+        </FormItem>
+        <br>
+        <FormItem>
+          <span>没有账号？ 立即  </span><router-link   :to="{ path: '/Signup' }"><span type="primary" @click="gosignup()">注册</span></router-link>
+        </FormItem>
+      </div>
+    </Form>
   </div>
 </template>
 <script>
@@ -125,6 +125,10 @@
     }
 </script>
 <style>
+  .Loginbody{
+    background: white;
+    height: 100%;
+  }
   .headtext{
     outline:none;
     font-family: "Yu Gothic UI";
@@ -132,12 +136,12 @@
     height: 35px;
     width:100px;
     border-radius: 30px;
-    background: rgba(0,0,0,0);
+    background: rgb(52, 52, 52);
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
     color: white;
-    border: 2px solid white;
+    border: 2px solid #343434;
     transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
   .headtext:hover{
@@ -185,24 +189,36 @@
     filter: brightness(1.4);
   }
   input[type="password"]{
-    background: black;
-    border: 2px solid white;
-    border-radius: 15px;
-    color: white;
+    padding-left: 10px;
+    height: 35px;
+    border-radius: 30px;
+    outline: none;
+    background: transparent;
+    border: 2px solid #343434;
+    /*border-radius: 15px;*/
+    color: #343434;
     letter-spacing: 1px;
   }
   input[type="password"]:hover{
     border-color: #a6dadd;
+    background: transparent;
+    color: #343434;
   }
   input[type="text"]{
-    background: black;
-    border: 2px solid white;
-    border-radius: 15px;
-    color: white;
+    padding-left: 10px;
+    height: 35px;
+    border-radius: 30px;
+    outline: none;
+    background: transparent;
+    border: 2px solid #343434;
+    /*border-radius: 15px;*/
+    color: #343434;
     letter-spacing: 1px;
   }
   input[type="text"]:hover{
     border-color: #a6dadd;
+    background: transparent;
+    color: #343434;
   }
   .myInput{border:0 #FFFFFF; border-bottom:#000000 solid 1px;background-color:#FF0000;}
 </style>

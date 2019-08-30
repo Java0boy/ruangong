@@ -1,5 +1,5 @@
 <template>
-  <div class = "header" style="background: rgb(0,0,0);height:100%;min-height: 70px;max-height: 100px" >
+  <div class = "header" style="background: rgb(52,52,52);height:100%;min-height: 70px;max-height: 100px" >
     <div class = "content">
       <div class="headleft">
         <!--      <img src="../assets/logoblog.png" width="50" height="50">-->
@@ -182,7 +182,7 @@
     *display: inline-block;
     zoom: 1;
     text-align: left;
-    background: #000000;
+    background: black;
   }
   .headright{
     /*float: right;*/
@@ -195,7 +195,7 @@
     *display: inline-block;
     zoom: 1;
     text-align: right;
-    background: #000000;
+    background: black;
   }
   .headlogo{
     width: 150px;
@@ -224,7 +224,7 @@
   .headtext:hover{
 
     background: #a6dadd;
-    color: #000000;
+    color: #343434;
     border: 2px solid #a6dadd;
 
   }
@@ -232,7 +232,7 @@
 
     border-radius: 35px;
     background: white;
-    color: #000000;
+    color: #343434;
     border: 2px solid transparent;
     /*border: 0px solid white;*/
   }
