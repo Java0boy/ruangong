@@ -5,6 +5,7 @@
       <input type="file" @change="getFile($event)">
       <button class="button button-primary button-pill button-small" @click="submit($event)">提交</button>
     </form>
+    <a href="rest/files/Lonely.gp5" download="Lonely.gp5">下载一个东西</a>
   </div>
 </template>
 
@@ -23,6 +24,8 @@
             getFile: function (event) {
                 this.file = event.target.files[0];
                 console.log(this.file);
+                // -----------
+
             },
             submit: function (event) {
                 //阻止元素发生默认的行为

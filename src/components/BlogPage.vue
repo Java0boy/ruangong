@@ -1,5 +1,5 @@
 <template>
-  <div>
+
 
   <div class="postbody">
     <div class="side-bar">
@@ -20,9 +20,16 @@
 
       <div class="article">
         <h1 class="title">{{article.title}}</h1>
-        <div class="status">发布于：{{article.date}}， 作者：{{article.username}} <!--| 阅读：3500 | 标签：#HTML #CSS--></div><!--暂时还没有前面那些东西 -->
+        <div class="status">发布于：{{article.date}}<!--| 阅读：3500 | 标签：#HTML #CSS--></div><!--暂时还没有前面那些东西 -->
+        <div  class="status">作者：{{article.username}}，浏览量：{{article.liulancount}}，点赞量：{{article.dianzancount}}</div>
+        <!--        ，浏览量：{{article.liulancount}}，点赞量：{{article.dianzancount}}-->
         <div class="content">
-          <router-link :to="{name: 'MdEditorExsited', params: {username: this.$route.params.username, blogId: this.$route.params.blogId}}"><Button type="primary">Edit</Button></router-link>
+          <!--          <div class="isline"></div>-->
+          <router-link :to="{name: 'MdEditorExsited', params: {username: this.$route.params.username, blogId: this.$route.params.blogId}}">
+            <button class="headtext" >Edit</button>
+          </router-link>
+          <button class="headtext" @click="toDianzan" id="dianzanButton" >{{this.goodText}}</button>
+          <div class="isline"></div>
           <div id="layout">
             <div id="articleView" >
               <div v-html="article.blogHtml">
@@ -30,11 +37,31 @@
               </div>
             </div>
           </div>
+
         </div>
+        <div class="isline" style="margin-bottom: 20px"></div>
+
+        <div style="width:100%;display: table">
+          <input style="display: table-cell" class="commitbox" v-model="comment.content"></input>
+          <div style="display: table-cell"  class="commitup">
+            <span class="fabiaopinglun" @click="sendComment">发表<br>评论</span>
+          </div>
+        </div>
+
+<!--        v-for-->
+
+        <div class="content-3" v-for="comment in comments">
+          <div class="itemis">
+            <div class="commitname" style="font-size: 10px;font-style: italic;color: rgba(0,0,0,0.51)">{{comment.username}}</div>
+            <div class="commitcontent" style="font-size: 15px">{{comment.comment}}</div>
+            <div class="status">{{comment.date}}</div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-  </div>
+
 </template>
 
 
@@ -47,12 +74,95 @@
                 formInline: {
                     keyword: '',
                 },
+                comment: {
+                    content: '',
+                },
+                comments:{},
+                goodText: '点赞',
             }
         },
 
 
                 methods: {
+                    toDianzan()
+                    {
+                        if(Global.sso_flag=="00000000000")
+                            this.$router.push({path: '/Login'});
+                        else
+                        {
+                            if(document.getElementById('dianzanButton').innerText=="点赞")
+                            {
+                                //////////////////////////
+                                console.log(Global.sso_flag);
+                                console.log(this.$route.params. blogId);
+                                this.$axios({
+                                    url:'/rest/dianzan',
+                                    method:'post',
+                                    data:{
+                                        dianzan:Global.sso_flag,dianzaned:this.$route.params. blogId,
+                                    }
+                                }).then(res=>
+                                {
+                                    console.log(res.data);
+                                    if(res.data)
+                                    {
+                                        console.log(Global.sso_flag);
+                                        console.log(this.$route.params. blogId);
+                                        this.$Message.success('点赞成功');
+                                        document.getElementById('dianzanButton').innerHTML="取消点赞";
+                                    }
+                                    else
+                                    {
+                                        this.$Message.warning('点赞失败');
+                                    }
+                                });
 
+                                /////////////////////////
+                                // console.log(Global.sso_flag);
+                                // console.log(this.$route.params.blogId);
+                                // this.$Message.success('点赞成功');
+                                // document.getElementById('dianzanButton').innerHTML="取消点赞";
+                                ////////////////////
+
+
+                            }
+                            else if(document.getElementById('dianzanButton').innerText=="取消点赞")
+                            {
+                                //////////////////
+
+                                this.$axios({
+                                    url:'/rest/quxiaodianzan',
+                                    method:'post',
+                                    data:{
+                                        dianzan:Global.sso_flag,dianzaned:this.$route.params. blogId,
+                                    }
+                                }).then(res=>
+                                {
+                                    console.log(res.data);
+                                    if(res.data)
+                                    {
+                                        console.log(Global.sso_flag);
+                                        console.log(this.$route.params. blogId);
+                                        this.$Message.success('取消成功');
+                                        document.getElementById('dianzanButton').innerHTML="点赞";
+                                    }
+                                    else
+                                    {
+                                        this.$Message.warning('取消失败');
+                                    }
+
+                                });
+
+                                ///////////////////////////
+                                // console.log(Global.sso_flag);
+                                //     console.log(this.$route.params.blogId);
+                                //     this.$Message.success('取消成功');
+                                //     document.getElementById('dianzanButton').innerHTML="点赞";
+                                ///////////////
+
+                            }
+                        }
+                    },
 
                     getArticle() {
 
@@ -107,11 +217,88 @@
                         });
 
                     },
+
+                    sendComment()
+                    {
+                        if(Global.sso_flag=="00000000000")
+                        {
+                            this.$router.push({name:'Login'});
+                        }
+                        else
+                        {
+                            if (this.comment.content.trim().length == 0)
+                            {
+                                this.$message.error('请输入评论内容');
+                            }
+                            else
+                            {
+                                var timestamp=new Date().getTime();
+                                var _id= Global.sso_flag + timestamp;
+                                this.$axios({
+                                    url: '/rest/postComment',//请求的地址
+                                    method: 'post',//请求的方式
+                                    data: {
+                                        username: Global.sso_flag,
+                                        date: Date().toString(),
+                                        comment: this.comment.content,
+                                        id: _id,
+                                        blogId: this.$route.params.blogId,
+
+                                    },//请求的表单数据
+                                }).then(res => {
+                                    console.info('发送评论: 后台返回的数据', res.data);
+                                    if (res.data) {
+                                        this.$message.success('评论发表成功');
+
+                                    }
+                                }).catch(err => {
+                                    console.info('报错的信息', err.response.message);
+                                });
+
+                            }
+                        }
+                    },
+
+                    getComment()
+                    {
+                        var _this = this;
+                        //var articleId = window.sessionStorage.getItem("articleId");
+                        var _blogId = _this.$route.params.blogId;
+                        this.$axios({
+                            url: '/rest/getComment',//请求的地址
+                            method: 'post',//请求的方式
+                            data: {
+                                id: this.$route.params.blogId,
+
+                            },//请求的表单数据
+                        }).then(res => {
+                            console.info('后台返回的数据', res.data);
+                            if (res.data) {
+                                this.comments = res.data;
+                                console.log(res.data);
+                            }
+                        }).catch(err => {
+                            console.info('报错的信息', err.response.message);
+                        });
+                    }
+
+
                 },
 
                 created() {
+                    this.$root.Bus.$emit('changeStatus', '');
                     var _this = this;
                     _this.getArticle();
+                    _this.getComment();
+                    if (this.$route.params.ret)
+                    {
+                        this.goodText = this.$route.params.ret;
+                    }
+                    else
+                    {
+                        this.$route.params.ret = '点赞';
+                    }
+
                 },
 
             }
@@ -129,6 +316,57 @@
     display: table;
     width: 100%;
     height: 70px;
+  }
+  .isline{
+    height: 1px;
+    width: 100%;
+    background: rgb(0, 0, 0,0.3);
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .commitbox{
+    width: 85%;
+    height: 50px;
+    background: #f1f1f1;
+    border-radius: 15px;
+    border: 0px;
+    position: center;
+  }
+  .commitup{
+    height: 30px;
+    width: 15%;
+    background: transparent;
+    border-radius: 15px;
+    border: 1px solid black;
+    color: black;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .commitup:hover{
+    background: #a6dadd;
+    border: 1px solid #a6dadd;
+    color: white;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  .commitup:active{
+    background: black;
+    border: 1px solid black;
+    color: white;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .fabiaopinglun{
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+  }
+
+  .content-3{
+    border-left: 5px solid #a6dadd;
+    text-align: left;
   }
   .inline{
     vertical-align:middle;
@@ -302,7 +540,7 @@
     text-align: left;
   }
   .postbody {
-    background: #fbfff3;
+    background: #f1f1f1;
     /*line-height: 1.7;*/
     height: 100%;
     width: 100%;
@@ -315,7 +553,11 @@
   a, body {
     color: #9fc6dc;
   }
+  .itemis{
+    margin-left: 10px;
+    margin-top: 30px;
 
+  }
   .side-bar {
     float: left;
     width: 20%;
@@ -361,9 +603,11 @@
   }
 
   .article-list, .article {
+    border-top: 5px solid black;
+    margin-top: 20px;
     margin-right: 30%;
     background: #fff;
-    padding: 20px 30px;
+    padding: 10px 30px;
     -webkit-box-shadow: 0 0 10px 0px rgba(0,0,0,.1);
     box-shadow: 0 0 10px 2px rgba(0,0,0,.1);
   }
@@ -391,6 +635,36 @@
   }
   .content{
     font-size: 15px;
+  }
+  .headtext{
+    outline:none;
+    font-family: "Yu Gothic UI";
+    font-size: 15px;
+    height: 35px;
+    width:100px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0);
+    text-align: center;
+    vertical-align:middle;
+    line-height: 35px;
+    color: black;
+    border: 1px solid black;
+    transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
+  }
+  .headtext:hover{
+
+
+    background: #a6dadd;
+    color: white;
+    border: 1px solid #a6dadd;
+  }
+  .headtext:active{
+
+    border-radius: 35px;
+    background: black;
+    color: white;
+    border: 1px solid black;
+    /*border: 0px solid white;*/
   }
 
 </style>

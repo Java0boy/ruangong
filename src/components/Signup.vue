@@ -21,17 +21,16 @@
       <br>
       <FormItem prop="vertifyCode">
         <div>
-          <Input placeholder="验证码" v-model="formInline.vertifyCode">
+          <Input style="width: 80px" placeholder="验证码" v-model="formInline.vertifyCode">
             <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
           </Input>
         </div>
       </FormItem>
-
-      <FormItem>
+      <FormItem     style="margin-left: -6px;" >
         <div>
-          <button @click="getVertifyCode" type="button">
+          <div @click="getVertifyCode" class="headtext2" >
             获取验证码
-          </button>
+          </div>
         </div>
       </FormItem>
       <br>
@@ -61,19 +60,20 @@
          <div>
            <div id="example-4"  style="display: inline-block">
 <!--             <div class="inline"> <Icon type="ios-lock-outline" slot="prepend"></Icon></div>-->
+             <div class="inline"style="color: white;font-size: 12px">Sex</div>
              <div class="inline">
                <input type="radio" id="男" value="男" v-model="formInline.sex" >
-               <label for="男">男</label>
+               <label style="color:white " for="男">男</label>
              </div>
 
 <!--             <br>-->
 <!--             <div class="inline" style="width: 50px;height: 100px"></div>-->
              <div class="inline">
                <input type="radio" id="女" value="女" v-model="formInline.sex">
-               <label for="女">女</label>
+               <label style="color:white " for="女">女</label>
              </div>
 <!--             <br>-->
-             <span class="inline">Picked: {{ formInline.sex }}</span>
+<!--             <span class="inline">Picked: {{ formInline.sex }}</span>-->
            </div>
            <!--           <select  v-model="formInline.sex" placeholder="sex" style="width: 150px;height: 30px" >-->
 <!--            <option value ="男">男</option>-->
@@ -86,8 +86,9 @@
       <br>
       <FormItem prop="age">
 <!--        <Input type="age" v-model="formInline.age" placeholder="age">-->
-          <select v-model="formInline.age" placeholder="age">
+          <select class="selectage" v-model="formInline.age" placeholder="age">
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
+            <option value="" disabled selected hidden>Age</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -317,6 +318,10 @@
               });
           }
 
+      },
+
+      created() {
+          this.$root.Bus.$emit('changeStatus', '');
       }
   }
 </script>
@@ -331,34 +336,64 @@
     margin-right: 5px;
   }
   .headtext{
+    outline:none;
+    font-family: "Yu Gothic UI";
     font-size: 15px;
     height: 35px;
-    line-height: 35px;
     width:100px;
     border-radius: 30px;
-    background: rgba(0,0,0,0);
+    background: rgba(0,0,0,1);
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
-
-    background: #6e9aa6;
-    color: #ffffff;
-    border: 3px solid #6e9aa6;
-
+    color: white;
+    border: 2px solid white;
+    transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
   .headtext:hover{
 
-    background: white;
-    color: #a6dadd;
-    border: 2px solid white;
+    background: #a6dadd;
+    color: #000000;
+    border: 2px solid #a6dadd;
 
   }
   .headtext:active{
 
-    border-radius: 10px;
-    background: #6e9aa6;
-    color: #ffffff;
-    border: 3px solid #6e9aa6;
+    border-radius: 35px;
+    background: white;
+    color: #000000;
+    border: 2px solid transparent;
+    /*border: 0px solid white;*/
+  }
+  .headtext2{
+    outline:none;
+    font-family: "Yu Gothic UI";
+    font-size: 12px;
+    height: 33px;
+    width:80px;
+    border-radius: 30px;
+    background: white;
+    text-align: center;
+    vertical-align:middle;
+    line-height: 35px;
+    color: black;
+    /*border: 2px solid white;*/
+    transition: border-radius 0.2s ease;
+  }
+  .headtext2:hover{
+
+    background: #a6dadd;
+    color: #000000;
+    /*border: 2px solid #a6dadd;*/
+
+  }
+  .headtext2:active{
+
+    border-radius: 35px;
+    background: white;
+    color: #000000;
+    /*border: 2px solid transparent;*/
+    /*border: 0px solid white;*/
   }
   .login_form {
     padding-top: 0%;
@@ -388,5 +423,36 @@
     background: -moz-linear-gradient(right, #000099, #2154FA); /* Firefox 3.6 - 15 */
     background: linear-gradient(to right, #000099 , #2154FA); /* 标准的语法 */
     filter: brightness(1.4);
+  }
+  input[type="password"]{
+    background: black;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    letter-spacing: 1px;
+  }
+  input[type="password"]:hover{
+    border-color: #a6dadd;
+  }
+  input[type="text"]{
+    background: black;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    letter-spacing: 1px;
+  }
+  input[type="text"]:hover{
+    border-color: #a6dadd;
+  }
+
+  .selectage{
+    padding-left: 5px;
+    width: 165px;
+    height: 30px;
+    background: black;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    letter-spacing: 1px;
   }
 </style>

@@ -6,9 +6,12 @@
         <header-nav></header-nav>
       </el-header>
 <!--      <el-container>-->
-      <el-main  style ="padding: 70px 0px 0px; background: #f1f1f1;">
+      <el-main  style ="padding: 70px 0px 0px; background: #000000;">
           <!-- Body -->
-        <router-view></router-view>
+        <transition name="slide-fade">
+          <router-view></router-view>
+        </transition>
+
 <!--        <components :is = "Footer"></components>-->
 <!--        <footer-nav></footer-nav>-->
 <!--        <li v-for="food in foodList">{{food.name}}: ￥{{food.price}}</li>-->
@@ -65,4 +68,21 @@
     /*统一设置高度为100%*/
     height: 100%;
   }
+  .slide-fade{
+    position: absolute;left:0;right: 0;
+  }
+  .slide-fade-enter-active {
+    transition: all 1.2s ease;
+  }
+  .slide-fade-leave-active {
+
+    transition: all .1s cubic-bezier(2.0, 0.5, 0.8, 1.0);
+  }
+  .slide-fade-enter, .slide-fade-leave-to
+  {
+    left:0;right: 0;
+    transform: translateX(50px);
+    opacity: 0;
+  }
+
 </style>

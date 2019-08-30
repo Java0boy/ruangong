@@ -1,10 +1,10 @@
 <template>
-  <div class = "header" style="background: rgb(166,218,221);height:100%;min-height: 70px;max-height: 100px" >
+  <div class = "header" style="background: rgb(0,0,0);height:100%;min-height: 70px;max-height: 100px" >
     <div class = "content">
       <div class="headleft">
         <!--      <img src="../assets/logoblog.png" width="50" height="50">-->
         <div class="inline" style="width: 30px"></div>
-        <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-circle-title.png" width="45" height="45" style="display: inline-block; vertical-align: middle;"></router-link></div>
+<!--        <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-circle-title.png" width="45" height="45" style="display: inline-block; vertical-align: middle;"></router-link></div>-->
         <div class="inline" style="width: 10px"></div>
         <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-test-title.png" height="40" style="display: inline-block; vertical-align: middle;"></router-link></div>
         <div class="inline" style="width: 40px"></div>
@@ -22,6 +22,7 @@
 <!--          <div class="searchicon" @click="searchUser"></div>-->
 <!--        </div>-->
         <div class="inline" style="width: 30px">
+          <div class="usericon" @click="gouser"></div>
         </div>
 
         <div class="inline">
@@ -36,7 +37,7 @@
 <!--          </div>-->
           <div class="inline" >
 <!--            <router-link :to="{ path: '/Login' }"><button class = "headtext" id="headButton">登录</button></router-link>-->
-            <button class = "headtext" id="headButton" @click="gozhuxiao()">登录</button>
+            <button class = "headtext" id="headRightButton" @click="changeUserStatus">登录</button>
 <!--
           <div class="inline">
             <router-link :to="{ path: '/Login' }"><button class = "headtext" id="headButton">登录</button></router-link>
@@ -64,6 +65,7 @@
                 },
                 yonghuming:Global.sso_flag,
 
+
             }
         },
 
@@ -75,43 +77,66 @@
                 }
                 else {
                     this.$router.push({name: 'Post', params: {type: 'user', keyword: this.formInline.keyword}});
-                    this.$router.go(0);
+                    window.location.reload();
                 }
             },
 
-          gozhuxiao()
+
+          changeUserStatus()
           {
             // Global.log()
-            if(document.getElementById('headButton').innerHTML=="登录")
-              this.$router.push({path: '/Login'})
+            if(Global.sso_flag == '00000000000')
+            {
+                this.$router.push({path: '/Login'});
+            }
             else
             {
-              document.getElementById('headButton').innerHTML="登录";
-              Global.set_sso_lag("00000000000");
-                console.log(Global.sso_flag);
-              this.$router.push({path:'/Home'});
+                Global.set_sso_lag("00000000000");
+                this.$router.push({path:'/Home'});
             }
+
 
           },
 
+            gouser(){
+                if (Global.sso_flag == "00000000000")
+                {
+                    this.$router.push({name: 'Login'});
+                }
+                else
+                {
+                    this.$router.push({name: 'UserPage', params:{username: Global.sso_flag}});
+                }
 
-
+            },
 
 
         },
+
         created()
         {
             this.$root.Bus.$on('changeStatus', value => {
-                var buttonText = document.getElementById('headButton');
-              // Global.set_sso_lag("00000000000");
-                buttonText.innerHTML = value;
-                console.log(Global.sso_flag);
-                // Global.set_sso_lag("00000000000");
+
+                var buttonText = document.getElementById('headRightButton');
+
+                if (buttonText) {
+                    if (Global.sso_flag == '00000000000') {
+                        buttonText.innerHTML = '登录';
+                    } else {
+                        buttonText.innerHTML = '注销';
+                    }
+                }
+                else
+                {
+                    buttonText.innerHTML = '登录';
+                }
             })
         },
         beforeDestroy() {
             this.$root.Bus.$off('changeStatus');
         },
+
+
     };
 
 
@@ -147,7 +172,7 @@
     *display: inline-block;
     zoom: 1;
     text-align: left;
-    background: #a6dadd;
+    background: #000000;
   }
   .headright{
     /*float: right;*/
@@ -160,7 +185,7 @@
     *display: inline-block;
     zoom: 1;
     text-align: right;
-    background: #a6dadd;
+    background: #000000;
   }
   .headlogo{
     width: 150px;
@@ -172,6 +197,7 @@
     margin: 0;
   }
   .headtext{
+    outline:none;
     font-family: "Yu Gothic UI";
     font-size: 15px;
     height: 35px;
@@ -183,21 +209,22 @@
     line-height: 35px;
     color: white;
     border: 2px solid white;
-    transition: background-color 0.3s ease,border-width 0.3s ease,border-radius 0.3s ease;
+    transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
   .headtext:hover{
 
-    background: white;
-    color: #a6dadd;
-    border: 2px solid white;
+    background: #a6dadd;
+    color: #000000;
+    border: 2px solid #a6dadd;
 
   }
   .headtext:active{
 
-    border-radius: 10px;
-    background: #6e9aa6;
-    color: #ffffff;
-    border: 0px solid white;
+    border-radius: 35px;
+    background: white;
+    color: #000000;
+    border: 2px solid transparent;
+    /*border: 0px solid white;*/
   }
   .loginbottom {
 
@@ -212,6 +239,7 @@
     border: 2px solid #ebefe4;
   }
   .searchbox {
+    outline:none;
     placeholder:"回车搜索";
     /*font-family: "Yu Gothic UI";*/
     text-align: left;
@@ -240,9 +268,9 @@
   }
   .searchbox:hover{
     background: rgba(255, 255, 255, 0);
-    border-color: #6AA0B2;
+    border-color: #a6dadd;
 
-    color: #6AA0B2;
+    color: #a6dadd;
     width: 200px;
   }
   .iconuser{
@@ -272,10 +300,10 @@
     /*-moz-background-size:90% 90%;*/
   }
   .usericon:hover{
-    background-image: url("../assets/icon-user-hover.png");
+    background-image: url("../assets/icon-user-active.png");
   }
   .usericon:active{
-    background-image: url("../assets/icon-user-active.png");
+    background-image: url("../assets/icon-user-hover.png");
   }
 
   .searchicon{

@@ -4,7 +4,7 @@
       <Input v-model="formInline.blogTitle" placeholder="Blog Title" style="width: 300px">  </Input>
     </FormItem>
     <FormItem>
-      <Button type="primary" @click="handleSubmit('formInline')">Post Blog</Button>
+      <div class="headtext" @click="handleSubmit('formInline')">Post Blog</div>
     </FormItem>
     <div id="layout">
       <div id="blog_editormd" style="margin-top: 5px;">
@@ -57,9 +57,34 @@
                             console.info('后台返回的数据', res.data);
                             if (res.data)
                             {
-                                // 连上数据库之后想办法把'tester'变成当前已经登录的用户的用户名
                                 // ID用这样的格式，我想一般不会重：用户名+当前时间戳，最好是就固定下来，编辑的时候注意一下ID不更新
-                                this.$router.push({name: 'SingleBlog', params: {username: this.$route.params.username, blogId: blogId}})
+                                if(Global.sso_flag=="00000000000")
+                                {
+                                    var r="点赞";
+                                    this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: blogId,ret:r}});
+                                }
+                                else
+                                {
+                                    console.log(Global.sso_flag);
+                                    // console.log(addr);
+                                    this.$axios({
+                                        url:'/rest/chadianzan',
+                                        method:'post',
+                                        data:{
+                                            dianzan:Global.sso_flag,dianzaned:blogId,
+                                        }
+                                    }).then(res=>{
+                                            // console.log(res);
+                                            // var r;
+                                            // if(res.data==false) r="取消点赞";
+                                            // else if(res.data==true) r="点赞";
+                                            // else r=uname;
+                                            // this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr,ret:r}});
+                                        }
+                                    )
+
+                                }
+                                this.$router.push({name: 'SingleBlog', params: {username: this.$route.params.username, blogId: blogId,ret:"点赞"}})
                             }
 
                         }).catch(err => {
@@ -72,7 +97,7 @@
             }
         },
         created(){
-
+            this.$root.Bus.$emit('changeStatus', '');
             this.$nextTick(() =>{
                 const blogEditor = editormd("blog_editormd",{
                     placeholder : '欢迎使用editor.md 编辑器',
@@ -89,7 +114,7 @@
                     flowChart : true,
                     imageUpload : true,
                     imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                    imageUploadURL : "",  // TODO: 增加上传图片的功能，解决好跨域问题
+                    imageUploadURL : "/rest/imgUpload",  // 上传图片的功能
                     //crossDomainUpload : true
                     previewTheme: "white"
 
@@ -103,4 +128,35 @@
         }
     }
 </script>
+<style>
+  .headtext{
+    outline:none;
+    font-family: "Yu Gothic UI";
+    font-size: 15px;
+    height: 35px;
+    width:100px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0);
+    text-align: center;
+    vertical-align:middle;
+    line-height: 35px;
+    color: white;
+    border: 2px solid white;
+    transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
+  }
+  .headtext:hover{
 
+    background: #a6dadd;
+    color: #000000;
+    border: 2px solid #a6dadd;
+
+  }
+  .headtext:active{
+
+    border-radius: 35px;
+    background: white;
+    color: #000000;
+    border: 2px solid transparent;
+    /*border: 0px solid white;*/
+  }
+</style>

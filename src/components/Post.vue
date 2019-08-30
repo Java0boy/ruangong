@@ -22,27 +22,26 @@
       </div>
       <!--      //-->
       <div v-for="blog in blogList" class="article-list">
-        <div class="item">
-          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
-          <a><div class="posttitle" @click="gotoBlog(blog.username, blog.id)">{{blog.title}}</div></a>
-
-          <div class="status">发布于： {{blog.date}}| 作者：{{blog.username}}</div>
-
-          <div style="height: 10px;width: 100%"></div>
+        <div class="bordertype">
+          <div class="item">
+            <!--          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
+            <a><div class="posttitle" @click="gotoBlog(blog.username, blog.id)">{{blog.title}}</div></a>
+            <div class="status">发布于： {{blog.date}}| 作者：{{blog.username}}</div>
+            <div style="height: 10px;width: 100%"></div>
+          </div>
         </div>
       </div>
 
       <div v-for="user in userList" class="article-list">
-        <div class="item">
-          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>
-          <a><div class="posttitle" @click="gotoUser(user.userName)">{{user.userName}}</div></a>
-
-          <div class="status">性别： {{user.sex}}| 年龄：{{user.age}}</div>
-
-          <div style="height: 10px;width: 100%"></div>
+        <div class="bordertype">
+          <div class="item">
+            <!--          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
+            <a><div class="posttitle" @click="gotoUser(user.userName)">{{user.userName}}</div></a>
+            <div class="status">性别： {{user.sex}}| 年龄：{{user.age}}</div>
+            <div style="height: 10px;width: 100%"></div>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -61,28 +60,65 @@
         methods: {
             gotoBlog(uname, addr)
             {
-                this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr}});
+                if(Global.sso_flag=="00000000000")
+                {
+                    var r="点赞";
+                    this.$router.push({name: 'SingleBlog', params: {username: uname, blogId: addr, ret: r}});
+                }
+                else {
+                    // this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr}});
+                    //console.log(Global.sso_flag);
+                    //console.log(addr);
+                    this.$axios({
+                        url: '/rest/chadianzan',
+                        method: 'post',
+                        data: {
+                            interest: Global.sso_flag, blog: addr,
+                        }
+                    }).then(res => {
+                            console.log(res);
+                            var r;
+                            if (res.data == false) r = "取消点赞";
+                            else if (res.data == true) r = "点赞";
+                            else r = uname;
+                            this.$router.push({name: 'SingleBlog', params: {username: uname, blogId: addr, ret: r}});
+                        }
+                    )
+                }
             },
             gotoUser(uname)
             {
               //
-              console.log(Global.sso_flag);
-              console.log(uname);
-              this.$axios({
-                url:'/rest/chaguanzhu',
-                method:'post',
-                data:{
-                  interest:Global.sso_flag,interested:uname,
-                }
-              }).then(res=>
+              if(Global.sso_flag=="00000000000")
               {
-                console.log(res);
-                var r;
-                if(res.data==false) r="取消关注";
-                else if(res.data==true) r="关注";
-                else r=uname;
+                var r="关注";
                 this.$router.push({name: 'UserPage', params: {username: uname,ret:r}});
-              });
+              }
+              else
+              {
+                //console.log(Global.sso_flag);
+                //console.log(uname);
+                this.$axios({
+                  url:'/rest/chaguanzhu',
+                  method:'post',
+                  data:{
+                    interest:Global.sso_flag,interested:uname,
+                  }
+                }).then(res=>
+                {
+                  console.log(res);
+                  var r;
+                  if(Global.sso_flag=="00000000000")
+                    r="关注";
+                  else
+                  {
+                    if(res.data==false) r="取消关注";
+                    else if(res.data==true) r="关注";
+                    else r=uname;
+                  }
+                  this.$router.push({name: 'UserPage', params: {username: uname,ret:r}});
+                });
+              }
               //
             },
 
@@ -126,6 +162,7 @@
 
         },
         created() {
+            this.$root.Bus.$emit('changeStatus', '');
             if (this.$route.params.type == 'blog')
             {
                 this.getBlogList(this.$route.params.keyword);
@@ -160,7 +197,7 @@
   }
 
   a, body {
-    color: #9fc6dc;
+    color: #000000;
   }
 
   .side-bar {
@@ -185,7 +222,7 @@
 
   .side-bar .nav a:hover,
   .side-bar .tag-list a:hover {
-    color: #9fc6dc;
+    color: #000000;
   }
 
   .side-bar .nav a {
@@ -241,6 +278,15 @@
   }
   .content{
 
+  }
+  .bordertype{
+    border-top:5px solid #000000;
+    padding-top: 8px;
+    transition: border-top-color 0.1s ease,border-top-width 0.3s;
+  }
+  .bordertype:hover{
+    border-top:8px solid #a6dadd;
+    padding-top: 8px;
   }
 
 

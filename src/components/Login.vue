@@ -10,19 +10,18 @@
 
       <FormItem prop="userName">
         <Input type="text" v-model="formInline.userName" placeholder="Username" >
-          <Icon type="ios-person-outline" slot="prepend"></Icon>
+<!--          <Icon type="ios-person-outline" slot="prepend"></Icon>-->
         </Input>
       </FormItem>
       <br>
       <FormItem prop="password">
-        <Input type="password" v-model="formInline.password" placeholder="Password">
-          <Icon type="ios-lock-outline" slot="prepend"></Icon>
+        <Input class="Login1" type="password" v-model="formInline.password" placeholder="Password">
+<!--          <Icon type="ios-lock-outline" slot="prepend"></Icon>-->
         </Input>
       </FormItem>
       <br>
       <FormItem>
         <div class = "headtext" type="primary" @click="handleSubmit('formInline')">登录</div>
-
       </FormItem>
       <br>
       <FormItem>
@@ -58,6 +57,7 @@
                 }
             }
         },
+
         methods: {
             handleSubmit(name) {
                 this.$refs[name].validate((valid) => {
@@ -85,7 +85,7 @@
                             else
                             {
                                 this.submit('注销');
-                                this.$router.push({name: 'UserPage', params:{username: this.formInline.userName}});
+                                this.$router.push({name: 'UserPage', params:{username: this.formInline.userName, ret:"关注"}});
                             }
 
                         }).catch(err => {
@@ -117,40 +117,43 @@
             });
           }
 
+        },
+
+        created() {
+            this.$root.Bus.$emit('changeStatus', '');
         }
     }
 </script>
 <style>
   .headtext{
-
+    outline:none;
+    font-family: "Yu Gothic UI";
     font-size: 15px;
     height: 35px;
-    line-height: 35px;
     width:100px;
     border-radius: 30px;
     background: rgba(0,0,0,0);
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
-
-    background: #6e9aa6;
-    color: #ffffff;
-    border: 3px solid #6e9aa6;
-
+    color: white;
+    border: 2px solid white;
+    transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
   .headtext:hover{
 
-    background: white;
-    color: #a6dadd;
-    border: 2px solid white;
+    background: #a6dadd;
+    color: #000000;
+    border: 2px solid #a6dadd;
 
   }
   .headtext:active{
 
-    border-radius: 10px;
-    background: #6e9aa6;
-    color: #ffffff;
-    border: 3px solid #6e9aa6;
+    border-radius: 35px;
+    background: white;
+    color: #000000;
+    border: 2px solid transparent;
+    /*border: 0px solid white;*/
   }
   .login_form {
     padding-top: 0%;
@@ -181,4 +184,25 @@
     background: linear-gradient(to right, #000099 , #2154FA); /* 标准的语法 */
     filter: brightness(1.4);
   }
+  input[type="password"]{
+    background: black;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    letter-spacing: 1px;
+  }
+  input[type="password"]:hover{
+    border-color: #a6dadd;
+  }
+  input[type="text"]{
+    background: black;
+    border: 2px solid white;
+    border-radius: 15px;
+    color: white;
+    letter-spacing: 1px;
+  }
+  input[type="text"]:hover{
+    border-color: #a6dadd;
+  }
+  .myInput{border:0 #FFFFFF; border-bottom:#000000 solid 1px;background-color:#FF0000;}
 </style>
