@@ -193,25 +193,25 @@
                 });
             },
             toGuanzhu() {
-                if (Global.sso_flag == "00000000000") {
+                if (localStorage.getItem('user') == null) {
                     this.$router.push({path: '/Login'});
                 } else if (Global.sso_flag == this.$route.params.username) {
                     this.$Message.warning('不能关注自己');
                 } else {
                     if (document.getElementById('guanzhuButton').innerText == "关注") {
-                        console.log(Global.sso_flag);
-                        console.log(this.$route.params.username);
+                        //console.log(Global.sso_flag);
+                        //console.log(this.$route.params.username);
                         this.$axios({
                             url: '/rest/guanzhu',
                             method: 'post',
                             data: {
-                                interest: Global.sso_flag, interested: this.$route.params.username,
+                                interest: localStorage.getItem('user'), interested: this.$route.params.username,
                             }
                         }).then(res => {
-                            console.log(res.data);
+                            //console.log(res.data);
                             if (res.data) {
-                                console.log(Global.sso_flag);
-                                console.log(this.$route.params.username);
+                                //console.log(Global.sso_flag);
+                                //console.log(this.$route.params.username);
                                 this.$Message.success('关注成功');
                                 document.getElementById('guanzhuButton').innerHTML = "取消关注";
                             } else {
@@ -231,12 +231,12 @@
                             url: '/rest/quxiaoguanzhu',
                             method: 'post',
                             data: {
-                                interest: Global.sso_flag, interested: this.$route.params.username,
+                                interest: localStorage.getItem('user'), interested: this.$route.params.username,
                             }
                         }).then(res => {
                             console.log(res.data);
                             if (res.data) {
-                                console.log(Global.sso_flag);
+                                console.log(localStorage.getItem('user'));
                                 console.log(this.$route.params.username);
                                 this.$Message.success('取消成功');
                                 document.getElementById('guanzhuButton').innerHTML = "关注";
@@ -261,20 +261,20 @@
 
             gotoBlog(addr) {
                 //this.$router.push({name: 'SingleBlog', params:{username: this.userInfo.username, blogId: addr,ret:"点赞"}});
-                if (Global.sso_flag == "00000000000") {
+                if (localStorage.getItem('user') == null) {
                     var r = "点赞";
                     this.$router.push({
                         name: 'SingleBlog',
                         params: {username: this.userInfo.username, blogId: addr, ret: r}
                     });
                 } else {
-                    console.log(Global.sso_flag);
-                    console.log(addr);
+                    //console.log(Global.sso_flag);
+                    //console.log(addr);
                     this.$axios({
                         url: '/rest/chadianzan',
                         method: 'post',
                         data: {
-                            dianzan: Global.sso_flag, dianzaned: addr,
+                            dianzan: localStorage.getItem('user'), dianzaned: addr,
                         }
                     }).then(res => {
                             console.log(res);

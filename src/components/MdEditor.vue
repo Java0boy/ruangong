@@ -58,20 +58,20 @@
                             if (res.data)
                             {
                                 // ID用这样的格式，我想一般不会重：用户名+当前时间戳，最好是就固定下来，编辑的时候注意一下ID不更新
-                                if(Global.sso_flag=="00000000000")
+                                if(localStorage.getItem('user') == null)
                                 {
                                     var r="点赞";
                                     this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: blogId,ret:r}});
                                 }
                                 else
                                 {
-                                    console.log(Global.sso_flag);
+                                    //console.log(Global.sso_flag);
                                     // console.log(addr);
                                     this.$axios({
                                         url:'/rest/chadianzan',
                                         method:'post',
                                         data:{
-                                            dianzan:Global.sso_flag,dianzaned:blogId,
+                                            dianzan:localStorage.getItem('user'),dianzaned:blogId,
                                         }
                                     }).then(res=>{
                                             // console.log(res);

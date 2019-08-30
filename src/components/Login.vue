@@ -71,7 +71,6 @@
                             data: {userName: this.formInline.userName, password: hashed}//请求的表单数据
                         }).then(res => {
                             console.info('后台返回的数据', res.data);
-                            // 返回true的话就跳转到编辑器（暂时
                           Global.set_sso_lag(res.data);
                           console.log(Global.sso_flag);
                             if(res.data=="22222222222"){
@@ -85,6 +84,7 @@
                             else
                             {
                                 this.submit('注销');
+                                localStorage.setItem("user", this.formInline.userName);
                                 this.$router.push({name: 'UserPage', params:{username: this.formInline.userName, ret:"关注"}});
                             }
 

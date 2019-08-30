@@ -37,15 +37,15 @@ Vue.use(VueRouter);
 //定义路由
 const routes = [
   {path:'/',component:Home},
-  { path: '/Login', name: 'Login', component: Login },
-  { path: '/u/:username/MdEditor', name: 'MdEditor', component: MdEditor},
-  {path:'/Signup', name: 'SignUp', component:Signup},
+  { path: '/Login', name: 'Login', component: Login, meta: {requireNoLog: true}},
+  { path: '/u/:username/MdEditor', name: 'MdEditor', component: MdEditor, meta:{requireAuth: true}},
+  {path:'/Signup', name: 'SignUp', component:Signup, meta: {requireNoLog: true}},
   {path: '/u/:username/:blogId', name : 'SingleBlog', component: BlogPage},
-  {path: '/u/:username/MdEditor/:blogId', name: 'MdEditorExsited', component: MdEditorExsited},
+  {path: '/u/:username/MdEditor/:blogId', name: 'MdEditorExsited', component: MdEditorExsited, meta:{requireAuth: true}},
   {path: '/Home', name: 'Home', component: Home},
   {path: '/u/:username', name: 'UserPage', component: User},
   {path: '/search/:type/:keyword', name: 'Post', component: Post},
-  {path: '/hello', name: 'hello', component: Hello},
+  //{path: '/hello', name: 'hello', component: Hello},
 
 
 ]
@@ -69,4 +69,33 @@ new Vue({
   {
     Bus: new Vue()
   }
-})
+});
+
+router.beforeEach((to, from, next) =>{
+  let username = localStorage.getItem('user');
+  if (username)
+  {
+      if (to.meta.requireNoLog)
+      {
+        localStorage.removeItem('user');
+        this.$message.success('已为您登出');
+        next();
+      }
+      else
+      {
+        next();
+      }
+  }
+  else
+  {
+    if (to.meta.requireAuth)
+    {
+      this.$message.error('请先登录');
+      next({path: '/Login'});
+    }
+    else
+    {
+      next();
+    }
+  }
+});

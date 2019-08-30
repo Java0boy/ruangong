@@ -60,7 +60,7 @@
         methods: {
             gotoBlog(uname, addr)
             {
-                if(Global.sso_flag=="00000000000")
+                if(localStorage.getItem('user') == null)
                 {
                     var r="点赞";
                     this.$router.push({name: 'SingleBlog', params: {username: uname, blogId: addr, ret: r}});
@@ -73,7 +73,7 @@
                         url: '/rest/chadianzan',
                         method: 'post',
                         data: {
-                            interest: Global.sso_flag, blog: addr,
+                            interest: localStorage.getItem('user'), blog: addr,
                         }
                     }).then(res => {
                             console.log(res);
@@ -89,7 +89,7 @@
             gotoUser(uname)
             {
               //
-              if(Global.sso_flag=="00000000000")
+              if(localStorage.getItem('user') == null)
               {
                 var r="关注";
                 this.$router.push({name: 'UserPage', params: {username: uname,ret:r}});
@@ -102,13 +102,13 @@
                   url:'/rest/chaguanzhu',
                   method:'post',
                   data:{
-                    interest:Global.sso_flag,interested:uname,
+                    interest:localStorage.getItem('user'),interested:uname,
                   }
                 }).then(res=>
                 {
                   console.log(res);
                   var r;
-                  if(Global.sso_flag=="00000000000")
+                  if(localStorage.getItem('user') == null)
                     r="关注";
                   else
                   {

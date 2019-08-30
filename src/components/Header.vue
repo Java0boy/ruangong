@@ -63,7 +63,7 @@
                 formInline:{
                     keyword: '',
                 },
-                yonghuming:Global.sso_flag,
+                //yonghuming:Global.sso_flag,
 
 
             }
@@ -85,13 +85,13 @@
           changeUserStatus()
           {
             // Global.log()
-            if(Global.sso_flag == '00000000000')
+            if(localStorage.getItem('user') == null)
             {
                 this.$router.push({path: '/Login'});
             }
             else
             {
-                Global.set_sso_lag("00000000000");
+                localStorage.removeItem('user');
                 this.$router.push({path:'/Home'});
             }
 
@@ -99,39 +99,49 @@
           },
 
             gouser(){
-                if (Global.sso_flag == "00000000000")
+                if (localStorage.getItem('user') == null)
                 {
                     this.$router.push({name: 'Login'});
                 }
                 else
                 {
-                    this.$router.push({name: 'UserPage', params:{username: Global.sso_flag}});
+                    this.$router.push({name: 'UserPage', params:{username: localStorage.getItem('user')}});
                 }
+
+            },
+
+            updateButtonText()
+            {
+                this.$nextTick(()=>{
+                    var buttonText = document.getElementById('headRightButton');
+
+                    if (buttonText) {
+                        if (localStorage.getItem('user') == null) {
+                            buttonText.innerHTML = '登录';
+                        } else {
+                            buttonText.innerHTML = '注销';
+                        }
+
+                    }
+                    else
+                    {
+
+                    }
+                });
 
             },
 
 
         },
 
+
         created()
         {
             this.$root.Bus.$on('changeStatus', value => {
-
-                var buttonText = document.getElementById('headRightButton');
-
-                if (buttonText) {
-                    if (Global.sso_flag == '00000000000') {
-                        buttonText.innerHTML = '登录';
-                    } else {
-                        buttonText.innerHTML = '注销';
-                    }
-                }
-                else
-                {
-                    buttonText.innerHTML = '登录';
-                }
+                this.updateButtonText();
             })
         },
+
         beforeDestroy() {
             this.$root.Bus.$off('changeStatus');
         },

@@ -26,7 +26,7 @@
         <div class="content">
           <!--          <div class="isline"></div>-->
           <router-link :to="{name: 'MdEditorExsited', params: {username: this.$route.params.username, blogId: this.$route.params.blogId}}">
-            <button class="headtext" >Edit</button>
+            <button class="headtext" id="editButton">Edit</button>
           </router-link>
           <button class="headtext" @click="toDianzan" id="dianzanButton" >{{this.goodText}}</button>
           <div class="isline"></div>
@@ -86,28 +86,28 @@
                 methods: {
                     toDianzan()
                     {
-                        if(Global.sso_flag=="00000000000")
+                        if(localStorage.getItem('user') == null)
                             this.$router.push({path: '/Login'});
                         else
                         {
                             if(document.getElementById('dianzanButton').innerText=="点赞")
                             {
                                 //////////////////////////
-                                console.log(Global.sso_flag);
-                                console.log(this.$route.params. blogId);
+                                //console.log(Global.sso_flag);
+                                //console.log(this.$route.params. blogId);
                                 this.$axios({
                                     url:'/rest/dianzan',
                                     method:'post',
                                     data:{
-                                        dianzan:Global.sso_flag,dianzaned:this.$route.params. blogId,
+                                        dianzan:localStorage.getItem('user'),dianzaned:this.$route.params.blogId,
                                     }
                                 }).then(res=>
                                 {
-                                    console.log(res.data);
+                                    //console.log(res.data);
                                     if(res.data)
                                     {
-                                        console.log(Global.sso_flag);
-                                        console.log(this.$route.params. blogId);
+                                       //console.log(Global.sso_flag);
+                                        //console.log(this.$route.params. blogId);
                                         this.$Message.success('点赞成功');
                                         document.getElementById('dianzanButton').innerHTML="取消点赞";
                                     }
@@ -134,15 +134,15 @@
                                     url:'/rest/quxiaodianzan',
                                     method:'post',
                                     data:{
-                                        dianzan:Global.sso_flag,dianzaned:this.$route.params. blogId,
+                                        dianzan:localStorage.getItem('user'),dianzaned:this.$route.params. blogId,
                                     }
                                 }).then(res=>
                                 {
-                                    console.log(res.data);
+                                    //console.log(res.data);
                                     if(res.data)
                                     {
-                                        console.log(Global.sso_flag);
-                                        console.log(this.$route.params. blogId);
+                                        //console.log(Global.sso_flag);
+                                        //console.log(this.$route.params. blogId);
                                         this.$Message.success('取消成功');
                                         document.getElementById('dianzanButton').innerHTML="点赞";
                                     }
@@ -220,7 +220,7 @@
 
                     sendComment()
                     {
-                        if(Global.sso_flag=="00000000000")
+                        if(localStorage.getItem('user'))
                         {
                             this.$router.push({name:'Login'});
                         }
@@ -233,12 +233,12 @@
                             else
                             {
                                 var timestamp=new Date().getTime();
-                                var _id= Global.sso_flag + timestamp;
+                                var _id= localStorage.getItem('user') + timestamp;
                                 this.$axios({
                                     url: '/rest/postComment',//请求的地址
                                     method: 'post',//请求的方式
                                     data: {
-                                        username: Global.sso_flag,
+                                        username: localStorage.getItem('user'),
                                         date: Date().toString(),
                                         comment: this.comment.content,
                                         id: _id,
@@ -246,7 +246,7 @@
 
                                     },//请求的表单数据
                                 }).then(res => {
-                                    console.info('发送评论: 后台返回的数据', res.data);
+                                    //console.info('发送评论: 后台返回的数据', res.data);
                                     if (res.data) {
                                         this.$message.success('评论发表成功');
 
@@ -280,10 +280,29 @@
                         }).catch(err => {
                             console.info('报错的信息', err.response.message);
                         });
+                    },
+
+                    EditButton()
+                    {
+                        this.$nextTick(()=>{
+                            var button = document.getElementById('editButton');
+                            if (button)
+                            {
+                                if (localStorage.getItem('user') == null)
+                                {
+                                    button.style.display = "none";
+                                }
+                                else
+                                {
+                                    button.style.display = "inline";
+                                }
+                            }
+                        });
                     }
 
-
                 },
+
+
 
                 created() {
                     this.$root.Bus.$emit('changeStatus', '');
@@ -298,7 +317,7 @@
                     {
                         this.$route.params.ret = '点赞';
                     }
-
+                    this.EditButton();
                 },
 
             }
