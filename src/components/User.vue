@@ -39,13 +39,21 @@
               <div class="headtext" @click="toEdit">发布博文</div></div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
             <div style="display:table-cell;vertical-align: center">
-              <div class="headtext" @click="">发布资源</div>
+              <div class="file"><input class="headtext" type="file" @change="uploadResource($event)">发布资源</div>
             </div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
 <!--            上传头像-->
             <div style="display:table-cell;vertical-align: center">
               <div class="file"><input class="headtext" type="file" @change="uploadImg($event)">上传头像</div>
             </div>
+            <div style="display:none;vertical-align: center" id="ResourceInput" >
+              <Input type="text" placeholder="资源名称" v-model="resourceInfo.resourcename"></Input>
+            </div>
+            <div style="display:none;vertical-align: center" id="ResourceButton">
+              <Button @click="uploadRes">确定上传</Button>
+            </div>
+
+
           </div>
 
           <div class="isline"></div>
@@ -138,29 +146,19 @@
                 },
                 followText: '关注',
                 tmpUrl: 'none',
+                resourceInfo:{
+                    username: '',
+                    resourcename: '',
+                    url:'',
+                    timestamp: '',
+
+                },
+                resourceList:{ },
             }
         },
 
         methods: {
-            // getFile: function (event) {
-            //     this.file = event.target.files[0];
-            //     console.log(this.file);
-            //     // -----------
-            //     event.preventDefault();
-            //     let formData = new FormData();
-            //     formData.append("file", this.file);
-            //     axios.post('rest/singlefile', formData)
-            //         .then(function (response) {
-            //             alert(response.data);
-            //             console.log(response);
-            //             window.location.reload();
-            //         })
-            //         .catch(function (error) {
-            //             alert("上传失败");
-            //             console.log(error);
-            //             window.location.reload();
-            //         });
-            // },
+
             getUserInfo() {
                 var _this = this;
                 var _username = this.$route.params.username;
@@ -398,6 +396,47 @@
                         }
                     });
                 });
+            },
+
+            uploadResource: function (event)
+            {
+                this.file = event.target.files[0];
+                let formData = new FormData();
+                formData.append("file", this.file);
+                this.$axios.post('rest/singlefile', formData)
+                    .then((response) => {
+                        alert('上传成功,请输入资源名称');
+                        this.resourceInfo.username = localStorage.getItem('user');
+                        this.resourceInfo.url = response.data.url;
+                        this.resourceInfo.url = new Date().getTime();
+                        document.getElementById("ResourceInput").style.display = 'table-cell';
+                        document.getElementById("ResourceButton").style.display = 'table-cell';
+
+                    })
+                    .catch((error)=> {
+                        alert("上传失败");
+                        console.log(error);
+                        window.location.reload();
+                    });
+            },
+
+            uploadRes()
+            {
+                if(this.resourceInfo.resourcename.trim().length == 0)
+                {
+                    alert("请输入资源名称");
+                }
+                else
+                {
+                    this.$axios({
+                        url: '/rest/upload',
+                        method: 'post',
+                        data: this.resourceInfo,
+                    }).then(res => {
+                        console.log('upload返回的数据' + res.data);
+                    });
+                    window.location.reload();
+                }
             }
 
         },
