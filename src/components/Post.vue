@@ -141,23 +141,36 @@
 
             getBlogList(keyword)
             {
-                this.$axios({
-                    url: '/rest/getBlogByBlog',//请求的地址
-                    method: 'post',//请求的方式
-                    data: {
-                        title: keyword,
-                        username: '',
-                        date: '',
-                        blogMd: '',
-                        blogHtml: '',
-                        id: '',
-                    },//请求的表单数据
-                }).then(res => {
-                    if (res.data != null)
-                    {
-                        this.blogList = res.data;
-                    }
-                });
+                if(keyword == 'all')
+                {
+                    this.$axios({
+                        url: '/rest/getallBlog',//请求的地址
+                        method: 'post',//请求的方式
+                        data: {},//请求的表单数据
+                    }).then(res => {
+                        if (res.data != null) {
+                            this.blogList = res.data;
+                        }
+                    });
+                }
+                else {
+                    this.$axios({
+                        url: '/rest/getBlogByBlog',//请求的地址
+                        method: 'post',//请求的方式
+                        data: {
+                            title: keyword,
+                            username: '',
+                            date: '',
+                            blogMd: '',
+                            blogHtml: '',
+                            id: '',
+                        },//请求的表单数据
+                    }).then(res => {
+                        if (res.data != null) {
+                            this.blogList = res.data;
+                        }
+                    });
+                }
             }
 
         },

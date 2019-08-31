@@ -56,7 +56,7 @@
 
             <!--            修改个人资料-->
             <div style="display:table-cell;vertical-align: center">
-              <div class="file"><input type="file" @click="modifyUser();">修改资料</div>
+              <div class="file"><input @click="modifyUser">修改资料</div>
             </div>
 
 
@@ -75,11 +75,14 @@
           </div>
 <!--          修改资料-->
           <div style="display: flex">
-            <div style="margin-top:15px;display:none;vertical-align: center;" id="Sexnput" >
-              <Input type="text" placeholder="性别" v-model="resourceInfo.resourcename"></Input>
+            <div style="margin-top:15px;display:none;vertical-align: center;" id="SexInput" >
+              <Input type="text" placeholder="性别" v-model="edittedInfo.sex"></Input>
             </div>
             <div style="margin-top:15px;margin-left:15px;display:none;vertical-align: center" id="AgeInput">
-              <Input type="text" placeholder="年龄" v-model="resourceInfo.resourcename"></Input>
+              <Input type="text" placeholder="年龄" v-model="edittedInfo.age"></Input>
+            </div>
+            <div style="margin-top:15px;margin-left:15px;display:none;vertical-align: center" id="InfoButton">
+              <Button  style="border-radius: 15px" @click="editInfo">提交修改</Button>
             </div>
           </div>
 
@@ -125,10 +128,10 @@
       <div class="isline-2"></div>
       <!--        <div class="userright">-->
       <div class="userposttext">用户资源列表</div>
-      <div class="content-2" style="line-height: 35px" v-for="blog in blogList" @click="gotoBlog(blog.id)">
+      <div class="content-2" style="line-height: 35px" v-for="re in resourceList">
         <!--            <div class="itemis">-->
         <!--              <div >-->
-        <div class="posttitle">{{blog.title}}</div>
+        <div class="posttitle" @click="downRes(re.url)"><a>{{re.resourcename}}</a></div>
         <!--              </div>-->
         <!--              <div class="status">发布于：{{blog.date}}</div>-->
         <!--            </div>-->
@@ -181,7 +184,11 @@
                     timestamp: '',
 
                 },
-                resourceList:{ },
+                resourceList:[],
+                edittedInfo:{
+                    sex:'',
+                    age:'',
+                },
             }
         },
 
@@ -189,7 +196,30 @@
             modifyUser(){
                 document.getElementById("AgeInput").style.display = 'table-cell';
                 document.getElementById("SexInput").style.display = 'table-cell';
-
+                document.getElementById("InfoButton").style.display = 'table-cell';
+            },
+            editInfo()
+            {
+                if (this.edittedInfo.sex.trim().length == 0 || this.edittedInfo.age.trim().length == 0)
+                {
+                    alert('请填完表单');
+                }
+                else
+                {
+                    this.$axios({
+                        url: '/rest/updateUser',
+                        method: 'post',
+                        data: {
+                            userName: localStorage.getItem('user'),
+                            age: this.edittedInfo.age,
+                            sex: this.edittedInfo.sex,
+                        }
+                    }).then(res => {
+                        console.log('updateUser返回的数据' + res.data);
+                        alert('修改成功');
+                        window.location.reload();
+                    });
+                }
             },
             getUserInfo() {
                 var _this = this;
@@ -377,7 +407,7 @@
                 this.$axios.post('rest/singlefile', formData)
                     .then((response) => {
                         alert('上传成功');
-                        this.tmpUrl = response.data.url;User
+                        this.tmpUrl = response.data.url;
                         this.sendUserImg();
                     })
                     .catch((error)=> {
@@ -440,7 +470,7 @@
                         alert('上传成功,请输入资源名称');
                         this.resourceInfo.username = localStorage.getItem('user');
                         this.resourceInfo.url = response.data.url;
-                        this.resourceInfo.url = new Date().getTime();
+                        this.resourceInfo.timestamp = new Date().getTime();
                         document.getElementById("ResourceInput").style.display = 'table-cell';
                         document.getElementById("ResourceButton").style.display = 'table-cell';
 
@@ -460,16 +490,51 @@
                 }
                 else
                 {
+                    console.log(this.resourceInfo.timestamp);
                     this.$axios({
                         url: '/rest/upload',
                         method: 'post',
-                        data: this.resourceInfo,
+                        data: {
+                            username: this.resourceInfo.username,
+                            resourcename: this.resourceInfo.resourcename,
+                            url:this.resourceInfo.url,
+                            timestamp: new Date().getTime(),
+                        }
                     }).then(res => {
                         console.log('upload返回的数据' + res.data);
+                        alert('发布成功');
                     });
                     window.location.reload();
                 }
+            },
+
+            getResourceList()
+            {
+                this.$nextTick(()=>{
+                    this.$axios({
+                        url: '/rest/getResource',
+                        method: 'post',
+                        data: {userName: this.$route.params.username, password: ''},
+                    }).then(res => {
+                        console.log('getResource返回的数据' + res.data);
+                        if (res.data)
+                        {
+                            this.resourceList = res.data;
+                        }
+
+                    });
+                });
+
+            },
+
+            downRes(_url)
+            {
+                window.location.href = _url;
             }
+
+
+
+
 
         },
 
@@ -487,6 +552,7 @@
                 this.getGuanzhu();
             }
             _this.loadUserImg();
+            _this.getResourceList();
 
         }
     }

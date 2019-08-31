@@ -9,7 +9,7 @@
         <div class="inline"><router-link :to="{ path: '/' }"><img src="../assets/logo-test-title.png" height="40" style="display: inline-block; vertical-align: middle;"></router-link></div>
         <div class="inline" style="width: 40px"></div>
 <!--        <button class="button button-large button-plain button-border button-box"><i class="fa fa-star"></i></button>-->
-        <div class="inline"><div class="headtext">所有文章</div></div><!--这个东西暂时不能用了 -->
+        <router-link :to="{name: 'Post', params:{type:'blog', keyword: 'all'}}"><div class="inline"><div class="headtext">所有文章</div></div></router-link><!--这个东西暂时不能用了 -->
 <!--        <div class="inline"><router-link :to="{ path: '/Post' }"><el-button round>圆角按钮</el-button></router-link></div>-->
 
       </div>
