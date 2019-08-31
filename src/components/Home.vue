@@ -104,7 +104,7 @@
               <span class = "postindex">{{index+1}}</span>
               <a><span class="posttitle" @click="gotoBlog(blog.username, blog.id)">{{blog.title}}</span></a>
               <span class="postauthor">[{{blog.username}}]</span>
-              <span class="posttime">2019.08.31</span>
+              <span class="posttime">2019.09.01</span>
 <!--              <span style="height: 10px;width: 100%"></span>-->
             </div>
 <!--          </div>-->

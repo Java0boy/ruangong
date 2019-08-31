@@ -2,7 +2,7 @@
 <div style="height: 100%;width: 100%;padding-top: 20px">
   <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
     <FormItem prop="blogTitle">
-      <Input class = "inputtitle" v-model="formInline.blogTitle" placeholder="Blog Title" style="width: 300px">  </Input>
+      <Input v-model="formInline.blogTitle" placeholder="Blog Title" style="width: 300px">  </Input>
     </FormItem>
     <FormItem>
       <div class="headtext" @click="handleSubmit('formInline')">Post Blog</div>
