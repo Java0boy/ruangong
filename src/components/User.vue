@@ -16,11 +16,14 @@
         <!--        <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
         <div style="height: 100%;width: 100%;padding: 20px 30px">
           <div class="userheadcontent">
-            <img id="userImg">
-            <!--            头像-->
-            <div class="userheadleftleft">
 
+            <!--            头像-->
+            <div style="position: relative;width: 90px;overflow: hidden;height: 90px;margin-right: 15px;margin-left: 5x">
+<!--              <div style="position: absolute;width: 150px;height: 150px">-->
+                <img id="userImg" style="position: absolute;height: 90px">
+<!--              </div>-->
             </div>
+<!--            <div  id="userImg" class = "userheadleftleft"></div>-->
             <div class="userheadleft">
               <div class="title">{{userInfo.username}}</div>
               <div class="status">性别：{{userInfo.sex}},年龄：{{userInfo.age}}</div>
@@ -36,25 +39,50 @@
 <!--          用户操作可以直接隐藏这个id-->
           <div id="useraction" style="display: table;line-height: 50px">
             <div style="display:table-cell;vertical-align: center">
-              <div class="headtext" @click="toEdit">发布博文</div></div>
-            <div style="display:table-cell;vertical-align: center;width: 15px"></div>
-            <div style="display:table-cell;vertical-align: center">
-              <div class="file"><input class="headtext" type="file" @change="uploadResource($event)">发布资源</div>
+              <div class="headtext" @click="toEdit">发布博文</div>
             </div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
-<!--            上传头像-->
+
             <div style="display:table-cell;vertical-align: center">
-              <div class="file"><input class="headtext" type="file" @change="uploadImg($event)">上传头像</div>
+              <div class="file"><input type="file" @change="uploadResource($event)">发布资源</div>
             </div>
-            <div style="display:none;vertical-align: center" id="ResourceInput" >
-              <Input type="text" placeholder="资源名称" v-model="resourceInfo.resourcename"></Input>
+            <div style="display:table-cell;vertical-align: center;width: 15px"></div>
+
+            <!--            上传头像-->
+            <div style="display:table-cell;vertical-align: center">
+              <div class="file"><input type="file" @change="uploadImg($event)">上传头像</div>
             </div>
-            <div style="display:none;vertical-align: center" id="ResourceButton">
-              <Button @click="uploadRes">确定上传</Button>
+            <div style="display:table-cell;vertical-align: center;width: 15px"></div>
+
+            <!--            修改个人资料-->
+            <div style="display:table-cell;vertical-align: center">
+              <div class="file"><input type="file" @click="modifyUser();">修改资料</div>
             </div>
+
+
 
 
           </div>
+
+<!--上传资源-->
+          <div style="display: flex">
+            <div style="margin-top:15px;display:none;vertical-align: center;" id="ResourceInput" >
+              <Input type="text" placeholder="资源名称" v-model="resourceInfo.resourcename"></Input>
+            </div>
+            <div style="margin-top:15px;margin-left:15px;display:none;vertical-align: center" id="ResourceButton">
+              <Button  style="border-radius: 15px" @click="uploadRes">确定上传</Button>
+            </div>
+          </div>
+<!--          修改资料-->
+          <div style="display: flex">
+            <div style="margin-top:15px;display:none;vertical-align: center;" id="Sexnput" >
+              <Input type="text" placeholder="性别" v-model="resourceInfo.resourcename"></Input>
+            </div>
+            <div style="margin-top:15px;margin-left:15px;display:none;vertical-align: center" id="AgeInput">
+              <Input type="text" placeholder="年龄" v-model="resourceInfo.resourcename"></Input>
+            </div>
+          </div>
+
 
           <div class="isline"></div>
 
@@ -158,7 +186,11 @@
         },
 
         methods: {
+            modifyUser(){
+                document.getElementById("AgeInput").style.display = 'table-cell';
+                document.getElementById("SexInput").style.display = 'table-cell';
 
+            },
             getUserInfo() {
                 var _this = this;
                 var _username = this.$route.params.username;
@@ -345,7 +377,7 @@
                 this.$axios.post('rest/singlefile', formData)
                     .then((response) => {
                         alert('上传成功');
-                        this.tmpUrl = response.data.url;
+                        this.tmpUrl = response.data.url;User
                         this.sendUserImg();
                     })
                     .catch((error)=> {
@@ -465,10 +497,13 @@
     display: flex;
   }
   .userheadleftleft{
-    background: #a6dadd;
-    width: 80px;
-    height: 80px;
+    /*background: #a6dadd;*/
+    width: 90px;
+    height: 90px;
     margin-right: 20px;
+    background-size: 100% 100% ;
+    background-image: url("../assets/logo-circle-title-b.png");
+
   }
   .userheadleft{
     flex: 1;
@@ -692,7 +727,7 @@
   }
   .file {
      position: relative;
-     padding: 4px 12px;
+     /*padding: 4px 12px;*/
      overflow: hidden;
      color: #343434;
      text-decoration: none;
@@ -707,7 +742,11 @@
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
-   }
+
+    outline:none;
+
+
+  }
   .file input {
     position: absolute;
     font-size: 100px;
