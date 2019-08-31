@@ -94,6 +94,7 @@
                 localStorage.removeItem('user');
                 this.$router.push({path:'/Home'});
             }
+            window.location.reload();
 
 
           },

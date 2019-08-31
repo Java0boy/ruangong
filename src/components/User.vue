@@ -16,6 +16,7 @@
         <!--        <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
         <div style="height: 100%;width: 100%;padding: 20px 30px">
           <div class="userheadcontent">
+            <img id="userImg">
             <!--            头像-->
             <div class="userheadleftleft">
 
@@ -38,12 +39,12 @@
               <div class="headtext" @click="toEdit">发布博文</div></div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
             <div style="display:table-cell;vertical-align: center">
-              <div class="headtext" @click="toEdit">发布资源</div>
+              <div class="headtext" @click="">发布资源</div>
             </div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
 <!--            上传头像-->
             <div style="display:table-cell;vertical-align: center">
-              <div class="headtext" @click="toEdit">上传头像</div>
+              <div class="file"><input class="headtext" type="file" @change="uploadImg($event)">上传头像</div>
             </div>
           </div>
 
@@ -136,6 +137,7 @@
                     beiguanzhu:'',
                 },
                 followText: '关注',
+                tmpUrl: 'none',
             }
         },
 
@@ -254,8 +256,9 @@
                         //     this.$Message.success('取消成功');
                         //     document.getElementById('guanzhuButton').innerHTML="关注";
                     }
+                    window.location.reload();
                 }
-                window.location.reload();
+
             },
 
             toEdit() {
@@ -284,7 +287,6 @@
                             var r;
                             if (res.data == false) r = "取消点赞";
                             else if (res.data == true) r = "点赞";
-                            else r = uname;
                             this.$router.push({
                                 name: 'SingleBlog',
                                 params: {username: this.userInfo.username, blogId: addr, ret: r}
@@ -334,13 +336,77 @@
                         });
                     }
                 });
+            },
+
+
+            uploadImg: function (event) {
+
+                this.file = event.target.files[0];
+                let formData = new FormData();
+                formData.append("file", this.file);
+                this.$axios.post('rest/singlefile', formData)
+                    .then((response) => {
+                        alert('上传成功');
+                        this.tmpUrl = response.data.url;
+                        this.sendUserImg();
+                    })
+                    .catch((error)=> {
+                        alert("上传失败");
+                        console.log(error);
+                        window.location.reload();
+                    });
+
+            },
+
+            sendUserImg()
+            {
+                console.log("url: "+this.tmpUrl);
+                // 存入数据库
+                this.$axios({
+                    url: '/rest/uploadPicture',
+                    method: 'post',
+                    data: {
+                        username: localStorage.getItem('user'),
+                        resourcename: 'userImg',
+                        url: this.tmpUrl,
+                        timestamp: new Date().getTime(),
+
+                    }
+                }).then(res => {
+                    console.log('uploadPic返回的数据' + res.data);
+                });
+                window.location.reload();
+            },
+
+            loadUserImg()
+            {
+                this.$nextTick(()=>{
+                    // 获取头像
+                    //document.getElementById('userImg').src = '/rest/files/微信图片_20190517123003.jpg';
+                    this.$axios({
+                        url: '/rest/getPicture',
+                        method: 'post',
+                        data: {
+                            userName: localStorage.getItem('user'),
+                            password: '',
+
+                        }
+                    }).then(res => {
+                        console.log('userImgSrc: ' + res.data);
+                        if(res.data) {
+                            document.getElementById('userImg').src = res.data;
+                        }
+                    });
+                });
             }
+
         },
 
         created() {
             var _this = this;
             _this.getUserInfo();
             _this.getBlogInfo();
+            this.$root.Bus.$emit('changeStatus', '');
             if (this.$route.params.ret)
             {
                 this.followText = this.$route.params.ret;
@@ -349,6 +415,7 @@
             {
                 this.getGuanzhu();
             }
+            _this.loadUserImg();
 
         }
     }
@@ -583,6 +650,38 @@
     font-weight: 600;
     letter-spacing: 1px;
     /*text-align: left;*/
+  }
+  .file {
+     position: relative;
+     padding: 4px 12px;
+     overflow: hidden;
+     color: #343434;
+     text-decoration: none;
+     text-indent: 0;
+    height: 35px;
+    width:100px;
+    border-radius: 30px;
+    background: rgba(0,0,0,0);
+    font-family: "Yu Gothic UI";
+    font-size: 15px;
+    border: 1px solid #343434;
+    text-align: center;
+    vertical-align:middle;
+    line-height: 35px;
+   }
+  .file input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+
+  }
+  .file:hover {
+    background: #a6dadd;
+    border-color: #a6dadd;
+    color: white;
+    text-decoration: none;
   }
 
 </style>

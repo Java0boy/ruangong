@@ -32,6 +32,7 @@ import User from './components/User';
 import Post from './components/Post';
 import UploadFile from './components/UploadFile';
 
+
 import Hello from './components/HelloWorld'
 Vue.use(VueRouter);
 
@@ -45,9 +46,9 @@ const routes = [
   {path: '/u/:username/:blogId', name : 'SingleBlog', component: BlogPage},
   {path: '/u/:username/MdEditor/:blogId', name: 'MdEditorExsited', component: MdEditorExsited, meta:{requireAuth: true}},
   {path: '/Home', name: 'Home', component: Home},
-  {path: '/Upload', name: 'Upload', component: UploadFile},
   {path: '/u/:username', name: 'UserPage', component: User},
   {path: '/search/:type/:keyword', name: 'Post', component: Post},
+  {path: '/u/:username/uploadFile', name: 'uploadFile', component: UploadFile, meta:{requireAuth: true}},
   //{path: '/hello', name: 'hello', component: Hello},
 
 
