@@ -6,7 +6,7 @@
         <header-nav></header-nav>
       </el-header>
 <!--      <el-container>-->
-      <el-main  style ="padding: 70px 0px 0px; background: #000000;">
+      <el-main  style ="padding: 70px 0px 0px; background: #343434;">
           <!-- Body -->
         <transition name="slide-fade">
           <router-view></router-view>

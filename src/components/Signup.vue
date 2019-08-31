@@ -1,91 +1,92 @@
 <template>
-  <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-    <div >
-    </div>
-    <div class="outer_label">
-      <img class="inner_label login_logo" src="../assets/logo-large.png" style="margin: 30px 30px" width="200">
-    </div>
-    <div class="login_form">
+  <div style="background: white;height: 100%;width: 100%">
+    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
       <div>
-<!--        <h1> &#45;&#45;&#45;&#45;&#45;&#45;Sign Up&#45;&#45;&#45;&#45;&#45;&#45;</h1>-->
       </div>
+      <div class="outer_label">
+        <img class="inner_label login_logo" src="../assets/logo-large-black.png" style="margin: 30px 30px" width="160">
+      </div>
+      <div class="login_form">
+        <div>
+          <!--        <h1> &#45;&#45;&#45;&#45;&#45;&#45;Sign Up&#45;&#45;&#45;&#45;&#45;&#45;</h1>-->
+        </div>
 
-<!--      Email-->
-      <FormItem prop="email">
-        <div>
-          <Input placeholder="用户邮箱" v-model="formInline.email">
-            <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
-          </Input>
-        </div>
-      </FormItem>
-      <br>
-      <FormItem prop="vertifyCode">
-        <div>
-          <Input style="width: 80px" placeholder="验证码" v-model="formInline.vertifyCode">
-            <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
-          </Input>
-        </div>
-      </FormItem>
-      <FormItem     style="margin-left: -6px;" >
-        <div>
-          <div @click="getVertifyCode" class="headtext2" >
-            获取验证码
+        <!--      Email-->
+        <FormItem prop="email">
+          <div>
+            <Input placeholder="用户邮箱" v-model="formInline.email">
+              <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
+            </Input>
           </div>
-        </div>
-      </FormItem>
-      <br>
+        </FormItem>
+        <br>
+        <FormItem prop="vertifyCode">
+          <div>
+            <Input style="width: 80px" placeholder="验证码" v-model="formInline.vertifyCode">
+              <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
+            </Input>
+          </div>
+        </FormItem>
+        <FormItem     style="margin-left: -6px;" >
+          <div>
+            <div @click="getVertifyCode" class="headtext2" >
+              获取验证码
+            </div>
+          </div>
+        </FormItem>
+        <br>
 
 
 
-      <FormItem prop="userName">
-        <div>
-          <Input v-model="formInline.userName" placeholder="Username">
-<!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
-          </Input>
+        <FormItem prop="userName">
+          <div>
+            <Input v-model="formInline.userName" placeholder="Username">
+              <!--            <Icon type="ios-person-outline" slot="prepend"></Icon>-->
+            </Input>
 
-        </div>
-      </FormItem>
-      <br>
-      <FormItem prop="password">
-<!--        <div>-->
+          </div>
+        </FormItem>
+        <br>
+        <FormItem prop="password">
+          <!--        <div>-->
           <Input  type="password" v-model="formInline.password" placeholder="Password">
             <!--          <Icon type="ios-lock-outline" slot="prepend"></Icon>-->
           </Input>
-<!--        </div>-->
-      </FormItem>
-      <br>
-      <FormItem prop="sex">
-<!--        <Input type="text" v-model="formInline.sex" placeholder="sex">-->
+          <!--        </div>-->
+        </FormItem>
+        <br>
+        <FormItem prop="sex">
+          <!--        <Input type="text" v-model="formInline.sex" placeholder="sex">-->
 
-         <div>
-           <div id="example-4"  style="display: inline-block">
-<!--             <div class="inline"> <Icon type="ios-lock-outline" slot="prepend"></Icon></div>-->
-             <div class="inline"style="color: white;font-size: 12px">Sex</div>
-             <div class="inline">
-               <input type="radio" id="男" value="男" v-model="formInline.sex" >
-               <label style="color:white " for="男">男</label>
-             </div>
+          <div>
+            <div id="example-4"  style="display: inline-block">
+              <!--             <div class="inline"> <Icon type="ios-lock-outline" slot="prepend"></Icon></div>-->
+              <div class="inline"style="color: #343434;font-size: 12px">Sex</div>
+              <div class="inline">
+                <input type="radio" id="男" value="男" v-model="formInline.sex" >
+                <label style="color:#343434 " for="男">男</label>
+              </div>
 
-<!--             <br>-->
-<!--             <div class="inline" style="width: 50px;height: 100px"></div>-->
-             <div class="inline">
-               <input type="radio" id="女" value="女" v-model="formInline.sex">
-               <label style="color:white " for="女">女</label>
-             </div>
-<!--             <br>-->
-<!--             <span class="inline">Picked: {{ formInline.sex }}</span>-->
-           </div>
-           <!--           <select  v-model="formInline.sex" placeholder="sex" style="width: 150px;height: 30px" >-->
-<!--            <option value ="男">男</option>-->
-<!--            <option value ="女">女</option>-->
+              <!--             <br>-->
+              <!--             <div class="inline" style="width: 50px;height: 100px"></div>-->
+              <div class="inline">
+                <input type="radio" id="女" value="女" v-model="formInline.sex">
+                <label style="color:#343434 " for="女">女</label>
+              </div>
+              <!--             <br>-->
+              <!--             <span class="inline">Picked: {{ formInline.sex }}</span>-->
+            </div>
+            <!--           <select  v-model="formInline.sex" placeholder="sex" style="width: 150px;height: 30px" >-->
+            <!--            <option value ="男">男</option>-->
+            <!--            <option value ="女">女</option>-->
 
-<!--          </select>-->
-         </div>
-<!--        </Input>-->
-      </FormItem>
-      <br>
-      <FormItem prop="age">
-<!--        <Input type="age" v-model="formInline.age" placeholder="age">-->
+            <!--          </select>-->
+          </div>
+          <!--        </Input>-->
+        </FormItem>
+        <br>
+        <FormItem prop="age">
+          <!--        <Input type="age" v-model="formInline.age" placeholder="age">-->
           <select class="selectage" v-model="formInline.age" placeholder="age">
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
             <option value="" disabled selected hidden>Age</option>
@@ -191,18 +192,20 @@
 
           </select>
 
-<!--        </Input>-->
-      </FormItem>
-      <br>
-      <FormItem>
-        <div type="primary" @click="handleSubmitsignup('formInline')" class="headtext" style="margin-bottom: 20px">注册</div>
-
-        <FormItem>
-          <span>已有账号？ 立即  </span><router-link   :to="{ path: '/Login' }"><span type="primary">登录</span></router-link>
+          <!--        </Input>-->
         </FormItem>
-      </FormItem>
-    </div>
-  </Form>
+        <br>
+        <FormItem>
+          <div type="primary" @click="handleSubmitsignup('formInline')" class="headtext" style="margin-bottom: 20px">注册</div>
+
+          <FormItem>
+            <span>已有账号？ 立即  </span><router-link   :to="{ path: '/Login' }"><span type="primary">登录</span></router-link>
+          </FormItem>
+        </FormItem>
+      </div>
+    </Form>
+  </div>
+
 
 
 
@@ -342,12 +345,12 @@
     height: 35px;
     width:100px;
     border-radius: 30px;
-    background: rgba(0,0,0,1);
+    background: rgb(52, 52, 52);
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
     color: white;
-    border: 2px solid white;
+    border: 2px solid #343434;
     transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
   .headtext:hover{
@@ -372,11 +375,11 @@
     height: 33px;
     width:80px;
     border-radius: 30px;
-    background: white;
+    background: #343434;
     text-align: center;
     vertical-align:middle;
     line-height: 35px;
-    color: black;
+    color: white;
     /*border: 2px solid white;*/
     transition: border-radius 0.2s ease;
   }
@@ -425,34 +428,46 @@
     filter: brightness(1.4);
   }
   input[type="password"]{
-    background: black;
-    border: 2px solid white;
-    border-radius: 15px;
-    color: white;
+    padding-left: 10px;
+    height: 33px;
+    border-radius: 30px;
+    outline: none;
+    background: transparent;
+    border: 2px solid #343434;
+    /*border-radius: 15px;*/
+    color: #343434;
     letter-spacing: 1px;
   }
   input[type="password"]:hover{
     border-color: #a6dadd;
+    background: transparent;
+    color: #343434;
   }
   input[type="text"]{
-    background: black;
-    border: 2px solid white;
-    border-radius: 15px;
-    color: white;
+    padding-left: 10px;
+    height: 33px;
+    border-radius: 30px;
+    outline: none;
+    background: transparent;
+    border: 2px solid #343434;
+    /*border-radius: 15px;*/
+    color: #343434;
     letter-spacing: 1px;
   }
   input[type="text"]:hover{
     border-color: #a6dadd;
+    background: transparent;
+    color: #343434;
   }
 
   .selectage{
     padding-left: 5px;
     width: 165px;
-    height: 30px;
-    background: black;
-    border: 2px solid white;
+    height: 33px;
+    background: transparent;
+    border: 2px solid #343434;
     border-radius: 15px;
-    color: white;
+    color: #343434;
     letter-spacing: 1px;
   }
 </style>

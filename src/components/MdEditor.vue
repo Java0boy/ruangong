@@ -1,20 +1,23 @@
 <template><!--参考了：https://blog.csdn.net/qq_31906861/article/details/88918439 -->
-  <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
-    <FormItem prop="blogTitle">
-      <Input v-model="formInline.blogTitle" placeholder="Blog Title" style="width: 300px">  </Input>
-    </FormItem>
-    <FormItem>
-      <div class="headtext" @click="handleSubmit('formInline')">Post Blog</div>
-    </FormItem>
-    <div id="layout">
-      <div id="blog_editormd" style="margin-top: 5px;">
+  <div style="height: 100%;width: 100%;padding-top: 20px">
+    <Form ref="formInline" :model="formInline" :rules="ruleInline" inline>
+      <FormItem prop="blogTitle">
+        <Input v-model="formInline.blogTitle" placeholder="Blog Title" style="width: 300px">  </Input>
+      </FormItem>
+      <FormItem>
+        <div class="headtext" @click="handleSubmit('formInline')">Post Blog</div>
+      </FormItem>
+      <div id="layout">
+        <div id="blog_editormd" style="margin-top: 5px;">
 
         <textarea style="display: none;">
         </textarea>
 
+        </div>
       </div>
-    </div>
-  </Form>
+    </Form>
+  </div>
+
 
 
 </template>
