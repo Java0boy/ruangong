@@ -195,10 +195,10 @@
             toGuanzhu() {
                 if (localStorage.getItem('user') == null) {
                     this.$router.push({path: '/Login'});
-                } else if (Global.sso_flag == this.$route.params.username) {
+                } else if (localStorage.getItem('user') == this.$route.params.username) {
                     this.$Message.warning('不能关注自己');
                 } else {
-                    if (document.getElementById('guanzhuButton').innerText == "关注") {
+                    if (this.getGuanzhu()){
                         //console.log(Global.sso_flag);
                         //console.log(this.$route.params.username);
                         this.$axios({
@@ -224,7 +224,7 @@
                         //     console.log(this.$route.params.username);
                         //     this.$Message.success('关注成功');
                         //     document.getElementById('guanzhuButton').innerHTML="取消关注";
-                    } else if (document.getElementById('guanzhuButton').innerText == "取消关注") {
+                    } else if (!this.getGuanzhu()) {
 
 
                         this.$axios({
@@ -296,6 +296,44 @@
                 // this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr,ret:"点赞"}});
                 //
             },
+
+            getGuanzhu()
+            {
+                this.$nextTick(()=>{
+                    this.$axios({
+                        url:'/rest/chaguanzhu',
+                        method:'post',
+                        data:{
+                            interest:localStorage.getItem('user'),interested:this.$route.params.username,
+                        }
+                    }).then(res=>
+                    {
+                        if(localStorage.getItem('user') == null) {
+                            this.followText = "关注";
+                            return true;
+                        }
+                        else
+                        {
+                            if(res.data==false)
+                            {
+                                this.followText = '取消关注';
+                                return false;
+
+                            }
+                            else if(res.data==true) {
+                                this.followText = "关注";
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+
+                        }
+                    });
+
+                });
+            }
         },
 
         created() {
@@ -308,9 +346,9 @@
             }
             else
             {
-                this.followText = '关注';
+                this.getGuanzhu();
             }
-            this.$root.Bus.$emit('changeStatus', '');
+
         }
     }
 </script>

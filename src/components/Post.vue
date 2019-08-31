@@ -73,7 +73,7 @@
                         url: '/rest/chadianzan',
                         method: 'post',
                         data: {
-                            interest: localStorage.getItem('user'), blog: addr,
+                            dianzan: localStorage.getItem('user'), dianzaned: addr,
                         }
                     }).then(res => {
                             console.log(res);
