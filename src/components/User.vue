@@ -38,24 +38,24 @@
           <div class="isline"></div>
 <!--          用户操作可以直接隐藏这个id-->
           <div id="useraction" style="display: table;line-height: 50px">
-            <div style="display:table-cell;vertical-align: center">
-              <div class="headtext" @click="toEdit">发布博文</div>
+            <div style="display:table-cell;vertical-align: center" id="postBlog">
+              <div class="headtext" @click="toEdit" >发布博文</div>
             </div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
 
-            <div style="display:table-cell;vertical-align: center">
-              <div class="file"><input type="file" @change="uploadResource($event)">发布资源</div>
+            <div style="display:table-cell;vertical-align: center" id="postResource">
+              <div class="file"><input type="file" @change="uploadResource($event)" >发布资源</div>
             </div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
 
             <!--            上传头像-->
-            <div style="display:table-cell;vertical-align: center">
-              <div class="file"><input type="file" @change="uploadImg($event)">上传头像</div>
+            <div style="display:table-cell;vertical-align: center" id="upImg">
+              <div class="file"><input type="file" @change="uploadImg($event)" >上传头像</div>
             </div>
             <div style="display:table-cell;vertical-align: center;width: 15px"></div>
 
             <!--            修改个人资料-->
-            <div style="display:table-cell;vertical-align: center">
+            <div style="display:table-cell;vertical-align: center" id="edit">
               <div class="file"><input @click="modifyUser">修改资料</div>
             </div>
 
@@ -447,7 +447,7 @@
                         url: '/rest/getPicture',
                         method: 'post',
                         data: {
-                            userName: localStorage.getItem('user'),
+                            userName: this.$route.params.username,
                             password: '',
 
                         }
@@ -530,7 +530,21 @@
             downRes(_url)
             {
                 window.location.href = _url;
+            },
+
+            initButton()
+            {
+                this.$nextTick(()=>{
+                    if (this.$route.params.username != localStorage.getItem('user'))
+                    {
+                        document.getElementById("postBlog").style.display = 'none';
+                        document.getElementById("postResource").style.display = 'none';
+                        document.getElementById("upImg").style.display = 'none';
+                        document.getElementById("edit").style.display = 'none';
+                    }
+                });
             }
+
 
 
 
@@ -553,6 +567,9 @@
             }
             _this.loadUserImg();
             _this.getResourceList();
+            _this.initButton();
+
+
 
         }
     }
