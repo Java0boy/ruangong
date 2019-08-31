@@ -3,7 +3,7 @@
     <div class="side-bar">
       <div class="header">
         <!--        <a href="index.html" class="logo">BLOG</a>-->
-        <div class="intro">软工小学期.第一轮迭代~~~</div>
+        <div class="intro" style="margin-top: 15px">软工小学期 / 第二次迭代</div>
       </div>
       <div class="nav">
         <a href="#" class="item">关于我们</a>

@@ -21,7 +21,7 @@
         </FormItem>
         <br>
         <FormItem>
-          <div class = "headtext" type="primary" @click="handleSubmit('formInline')">登录</div>
+          <div class = "headtext3" type="primary" @click="handleSubmit('formInline')">登录</div>
         </FormItem>
         <br>
         <FormItem>
@@ -129,7 +129,7 @@
     background: white;
     height: 100%;
   }
-  .headtext{
+  .headtext3{
     outline:none;
     font-family: "Yu Gothic UI";
     font-size: 15px;
@@ -144,14 +144,14 @@
     border: 2px solid #343434;
     transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
-  .headtext:hover{
+  .headtext3:hover{
 
     background: #a6dadd;
     color: #000000;
     border: 2px solid #a6dadd;
 
   }
-  .headtext:active{
+  .headtext3:active{
 
     border-radius: 35px;
     background: white;

@@ -1,11 +1,11 @@
 <template>
 
 
-  <div class="postbody">
+  <div class="postbody" id="PostBody">
     <div class="side-bar">
-      <div class="header">
+      <div class="header" >
         <!--        <a href="index.html" class="logo">BLOG</a>-->
-        <div class="intro">软工小学期.第一轮迭代~~~</div>
+        <div class="intro">软工小学期 / 第二次迭代</div>
       </div>
       <div class="nav">
         <a href="#" class="item">关于我们</a>
@@ -26,8 +26,9 @@
         <div class="content">
           <!--          <div class="isline"></div>-->
           <router-link :to="{name: 'MdEditorExsited', params: {username: this.$route.params.username, blogId: this.$route.params.blogId}}">
-            <button class="headtext" id="editButton">Edit</button>
+            <button class="headtext" id="editButton" style="margin-right: 10px">Edit</button>
           </router-link>
+
           <button class="headtext" @click="toDianzan" id="dianzanButton" >{{this.goodText}}</button>
           <div class="isline"></div>
           <div id="layout">
@@ -349,6 +350,19 @@
                     }
                     _this.EditButton();
                     _this.getDianzan();
+                    // window.onload = function(){
+                    //     var winHeight = 0;
+                    //     if (window.innerHeight){
+                    //         winHeight = window.innerHeight;
+                    //     }else if ((document.body) && (document.body.clientHeight)){
+                    //         winHeight = document.body.clientHeight;
+                    //     }
+                    //     var html = document.getElementById("PostBody");
+                    //     if(document.body.offsetHeight < winHeight){
+                    //         html.style.height = winHeight;
+                    //     }
+                    // };
+
                 },
 
             }
@@ -657,6 +671,7 @@
     border-top: 5px solid black;
     margin-top: 20px;
     margin-right: 30%;
+    margin-bottom: 40px;
     background: #fff;
     padding: 10px 30px;
     -webkit-box-shadow: 0 0 10px 0px rgba(0,0,0,.1);

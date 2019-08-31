@@ -196,7 +196,7 @@
         </FormItem>
         <br>
         <FormItem>
-          <div type="primary" @click="handleSubmitsignup('formInline')" class="headtext" style="margin-bottom: 20px">注册</div>
+          <div type="primary" @click="handleSubmitsignup('formInline')" class="headtext4" style="margin-bottom: 20px">注册</div>
 
           <FormItem>
             <span>已有账号？ 立即  </span><router-link   :to="{ path: '/Login' }"><span type="primary">登录</span></router-link>
@@ -338,7 +338,7 @@
     margin-left: 5px;
     margin-right: 5px;
   }
-  .headtext{
+  .headtext4{
     outline:none;
     font-family: "Yu Gothic UI";
     font-size: 15px;
@@ -353,14 +353,14 @@
     border: 2px solid #343434;
     transition: background-color 0.2s ease,border-width 0.2s ease,border-radius 0.2s ease;
   }
-  .headtext:hover{
+  .headtext4:hover{
 
     background: #a6dadd;
     color: #000000;
     border: 2px solid #a6dadd;
 
   }
-  .headtext:active{
+  .headtext4:active{
 
     border-radius: 35px;
     background: white;

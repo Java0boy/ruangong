@@ -1,9 +1,9 @@
 <template>
   <div class="postbody">
     <div class="side-bar">
-      <div class="header">
+      <div class="header" style="margin-top: 15px">
 <!--        <a href="index.html" class="logo">BLOG</a>-->
-        <div class="intro">软工小学期.第一轮迭代~~~</div>
+        <div class="intro">软工小学期 / 第二次迭代</div>
       </div>
       <div class="nav">
         <a href="#" class="item">关于我们</a>
@@ -33,15 +33,17 @@
       </div>
 
       <div v-for="user in userList" class="article-list">
-        <div class="bordertype">
-          <div class="item">
-            <!--          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
-            <a><div class="posttitle" @click="gotoUser(user.userName)">{{user.userName}}</div></a>
-            <div class="status">性别： {{user.sex}}| 年龄：{{user.age}}</div>
-            <div style="height: 10px;width: 100%"></div>
-          </div>
+      <div class="bordertype">
+        <div class="item">
+          <!--          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
+          <a><div class="posttitle" @click="gotoUser(user.userName)">{{user.userName}}</div></a>
+          <div class="status">性别： {{user.sex}}| 年龄：{{user.age}}</div>
+          <div style="height: 10px;width: 100%"></div>
         </div>
       </div>
+    </div>
+
+      <div style="height: 50px;width: 100%"></div>
     </div>
   </div>
 
@@ -201,7 +203,7 @@
   .postbody {
     background: #f1f1f1;
     /*line-height: 1.7;*/
-    height: 100%;
+    height: 155%;
     width: 100%;
   }
 

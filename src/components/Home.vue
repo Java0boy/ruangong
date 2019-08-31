@@ -74,27 +74,40 @@
 
       <div class="rightbottom">
         <div class = "listtitle">热门文章</div>
-        <div class="post">
-<!--          <router-link :to="{}" >-->
-            <img src="../assets/logo-large.png" style="width: 20px">
-<!--              <span class="postindex">{{index+1}}</span>-->
-<!--              <span class = "posttitle">{{intest.postTitile}}</span>-->
-<!--              <span class = "postauthor">{{intest.postAuthor}}</span>-->
-<!--              <span class = "posttime">{{intest.postTime}}</span>-->
-            <span class = "postindex">1</span>
-            <span class = "posttitle">Just a test</span>
-            <span class = "postauthor">[Juan]</span>
-            <span class = "posttime">20190829</span>
-<!--          </router-link>-->
-        </div>
-        <div class="post">
+<!--        <div class="post">-->
+<!--&lt;!&ndash;          <router-link :to="{}" >&ndash;&gt;-->
+<!--            <img src="../assets/logo-large.png" style="width: 20px">-->
+<!--&lt;!&ndash;              <span class="postindex">{{index+1}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class = "posttitle">{{intest.postTitile}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class = "postauthor">{{intest.postAuthor}}</span>&ndash;&gt;-->
+<!--&lt;!&ndash;              <span class = "posttime">{{intest.postTime}}</span>&ndash;&gt;-->
+<!--            <span class = "postindex">1</span>-->
+<!--            <span class = "posttitle">Just a test</span>-->
+<!--            <span class = "postauthor">[Juan]</span>-->
+<!--            <span class = "posttime">20190829</span>-->
+<!--&lt;!&ndash;          </router-link>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="post">-->
 
-          <img src="../assets/logo-large.png" style="width: 20px">
-          <span class = "postindex">2</span>
-          <span class = "posttitle">Just a test222</span>
-          <span class = "postauthor">[ZXY]</span>
-          <span class = "posttime">20190829</span>
+<!--          <img src="../assets/logo-large.png" style="width: 20px">-->
+<!--          <span class = "postindex">2</span>-->
+<!--          <span class = "posttitle">Just a test222</span>-->
+<!--          <span class = "postauthor">[ZXY]</span>-->
+<!--          <span class = "posttime">20190829</span>-->
 
+<!--        </div>-->
+
+        <div v-for="(blog,index) in blogList" v-if="index<4" class="post">
+<!--          <div class="bordertype">-->
+            <div class="item">
+              <!--          <div style="height: 5px;width: 100%;background: #6aa0b2"></div>-->
+              <span class = "postindex">{{index+1}}</span>
+              <a><span class="posttitle" @click="gotoBlog(blog.username, blog.id)">{{blog.title}}</span></a>
+              <span class="postauthor">[{{blog.username}}]</span>
+              <span class="posttime">2019.08.31</span>
+<!--              <span style="height: 10px;width: 100%"></span>-->
+            </div>
+<!--          </div>-->
         </div>
       </div>
     </div>
@@ -110,7 +123,7 @@
                    keyword: '',
                    type:'',
                },
-
+                blogList: [],
 
             }
         },
@@ -119,8 +132,72 @@
         },
         created(){
             this.$root.Bus.$emit('changeStatus', '');
+            // this.getBlogList(this.$route.params.keyword);
+            this.getBlogList('all');
         },
         methods: {
+            gotoBlog(uname, addr)
+            {
+                if(localStorage.getItem('user') == null)
+                {
+                    var r="点赞";
+                    this.$router.push({name: 'SingleBlog', params: {username: uname, blogId: addr, ret: r}});
+                }
+                else {
+                    // this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr}});
+                    //console.log(Global.sso_flag);
+                    //console.log(addr);
+                    this.$axios({
+                        url: '/rest/chadianzan',
+                        method: 'post',
+                        data: {
+                            dianzan: localStorage.getItem('user'), dianzaned: addr,
+                        }
+                    }).then(res => {
+                            console.log(res);
+                            var r;
+                            if (res.data == false) r = "取消点赞";
+                            else if (res.data == true) r = "点赞";
+                            else r = uname;
+                            this.$router.push({name: 'SingleBlog', params: {username: uname, blogId: addr, ret: r}});
+                        }
+                    )
+                }
+            },
+            getBlogList(keyword)
+            {
+                if(keyword == 'all')
+                {
+                    this.$axios({
+                        url: '/rest/getallBlog',//请求的地址
+                        method: 'post',//请求的方式
+                        data: {},//请求的表单数据
+                    }).then(res => {
+                        if (res.data != null) {
+                            this.blogList = res.data;
+                        }
+                    });
+                }
+                else {
+                    this.$axios({
+                        url: '/rest/getBlogByBlog',//请求的地址
+                        method: 'post',//请求的方式
+                        data: {
+                            title: keyword,
+                            username: '',
+                            date: '',
+                            blogMd: '',
+                            blogHtml: '',
+                            id: '',
+                        },//请求的表单数据
+                    }).then(res => {
+                        if (res.data != null) {
+                            this.blogList = res.data;
+                        }
+                    });
+                }
+            },
+
             searchUser() {
                 this.$router.push({name: 'Post', params: {type:'user', keyword: this.formInline.keyword}});
             },
@@ -302,9 +379,10 @@
   }
   .postauthor{
     color: white;
-    font-size: 18px;
+    font-size: 15px;
     font-style: italic;
     margin-right: 5px;
+
   }
   .posttime{
 
