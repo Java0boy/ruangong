@@ -51,14 +51,16 @@
                         this.$axios({
                             url: '/rest/postBlog',//请求的地址
                             method: 'post',//请求的方式
-                            data: {title: this.formInline.blogTitle, username: this.$route.params.username, date: Date().toString(), blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: this.$route.params.blogId},//请求的表单数据
+                            data: {title: this.formInline.blogTitle, username: this.$route.params.username, date: Date().toString(), blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: this.$route.params.blogId, timestamp: new Date().getTime()},//请求的表单数据
                         }).then(res => {
-                            console.info('后台返回的数据', res.data);                           if (res.data)
+                            console.info('后台返回的数据', res.data);
+                            if (res.data)
                             {
+
                                 if(localStorage.getItem('user') == null)
                                 {
                                     var r="点赞";
-                                    this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: blogId,ret:r}});
+                                    this.$router.push({name: 'SingleBlog', params:{username: localStorage.getItem('user'), blogId: this.$route.params.blogId,ret:r}});
                                 }
                                 else
                                 {
@@ -68,7 +70,7 @@
                                         url:'/rest/chadianzan',
                                         method:'post',
                                         data:{
-                                            dianzan:localStorage.getItem('user'),dianzaned:blogId,
+                                            dianzan:localStorage.getItem('user'),dianzaned:this.$route.params.blogId,
                                         }
                                     }).then(res=>{
                                             // console.log(res);
@@ -81,9 +83,10 @@
                                     )
 
                                 }
-                                  this.$router.push({name: 'SingleBlog', params: {username: this.$route.params.username, blogId: this.$route.params.blogId,ret:"点赞"}});
-                                }
-                            }).catch(err => {
+                                this.$router.push({name: 'SingleBlog', params: {username: this.$route.params.username, blogId:this.$route.params.blogId,ret:"点赞"}})
+                            }
+
+                        }).catch(err => {
                             console.info('报错的信息', err.response.message);
                         });
                     } else {

@@ -51,11 +51,11 @@
 
 <!--        v-for-->
 
-        <div class="content-3" v-for="comment in comments">
+        <div class="content-3" v-for="comment1 in comments">
           <div class="itemis">
-            <div class="commitname" style="font-size: 10px;font-style: italic;color: rgba(0,0,0,0.51)">{{comment.username}}</div>
-            <div class="commitcontent" style="font-size: 15px">{{comment.comment}}</div>
-            <div class="status"style="font-size: 12px">{{comment.date}}</div>
+            <div class="commitname" style="font-size: 10px;font-style: italic;color: rgba(0,0,0,0.51)">{{comment1.username}}</div>
+            <div class="commitcontent" style="font-size: 15px">{{comment1.comment}}</div>
+            <div class="status"style="font-size: 12px">{{comment1.date}}</div>
           </div>
         </div>
 
@@ -91,7 +91,7 @@
                             this.$router.push({path: '/Login'});
                         else
                         {
-                            if(document.getElementById('dianzanButton').innerText=="点赞")
+                            if(this.goodText=="点赞")
                             {
                                 //////////////////////////
                                 //console.log(Global.sso_flag);
@@ -110,7 +110,6 @@
                                        //console.log(Global.sso_flag);
                                         //console.log(this.$route.params. blogId);
                                         this.$Message.success('点赞成功');
-                                        document.getElementById('dianzanButton').innerHTML="取消点赞";
                                     }
                                     else
                                     {
@@ -127,7 +126,7 @@
 
 
                             }
-                            else if(document.getElementById('dianzanButton').innerText=="取消点赞")
+                            else if(this.goodText=="取消点赞")
                             {
                                 //////////////////
 
@@ -145,7 +144,6 @@
                                         //console.log(Global.sso_flag);
                                         //console.log(this.$route.params. blogId);
                                         this.$Message.success('取消成功');
-                                        document.getElementById('dianzanButton').innerHTML="点赞";
                                     }
                                     else
                                     {
@@ -163,6 +161,7 @@
 
                             }
                         }
+                        window.location.reload();
                     },
 
                     getArticle() {
@@ -221,7 +220,7 @@
 
                     sendComment()
                     {
-                        if(localStorage.getItem('user'))
+                        if(localStorage.getItem('user') == null)
                         {
                             this.$router.push({name:'Login'});
                         }
@@ -234,7 +233,7 @@
                             else
                             {
                                 var timestamp=new Date().getTime();
-                                var _id= localStorage.getItem('user') + timestamp;
+                                var _id= timestamp + localStorage.getItem('user');
                                 this.$axios({
                                     url: '/rest/postComment',//请求的地址
                                     method: 'post',//请求的方式
@@ -258,6 +257,7 @@
 
                             }
                         }
+                        window.location.reload();
                     },
 
                     getComment()
@@ -299,6 +299,35 @@
                                 }
                             }
                         });
+                    },
+
+                    getDianzan()
+                    {
+                        this.$nextTick(()=>{
+                            if(localStorage.getItem('user') == null)
+                            {
+                                this.goodText ="点赞";
+                            }
+                            else {
+                                // this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: addr}});
+                                //console.log(Global.sso_flag);
+                                //console.log(addr);
+                                this.$axios({
+                                    url: '/rest/chadianzan',
+                                    method: 'post',
+                                    data: {
+                                        dianzan: localStorage.getItem('user'), dianzaned: this.$route.params.blogId,
+                                    }
+                                }).then(res => {
+                                        //console.log(res);
+                                        var r;
+                                        if (res.data == false) this.goodText = "取消点赞";
+                                        else if (res.data == true) this.goodText = "点赞";
+                                        else this.goodText = "点赞";
+                                    }
+                                )
+                            }
+                        });
                     }
 
                 },
@@ -318,7 +347,8 @@
                     {
                         this.$route.params.ret = '点赞';
                     }
-                    this.EditButton();
+                    _this.EditButton();
+                    _this.getDianzan();
                 },
 
             }

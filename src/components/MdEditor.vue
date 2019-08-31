@@ -48,14 +48,14 @@
         },
         methods: {
             handleSubmit(name) {
-                var timestamp=new Date().getTime();
-                var blogId = this.$route.params.username + timestamp;
+                var _timestamp=new Date().getTime();
+                var blogId = this.$route.params.username + _timestamp;
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         this.$axios({
                             url: '/rest/postBlog',//请求的地址
                             method: 'post',//请求的方式
-                            data: {title: this.formInline.blogTitle, username: this.$route.params.username, date: Date().toString(), blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: blogId},//请求的表单数据
+                            data: {title: this.formInline.blogTitle, username: this.$route.params.username, date: Date().toString(), blogMd:this.formInline.blogEditor.getMarkdown(), blogHtml: this.formInline.blogEditor.getHTML(), id: blogId, timestamp: _timestamp},//请求的表单数据
                         }).then(res => {
                             console.info('后台返回的数据', res.data);
                             if (res.data)
@@ -64,7 +64,7 @@
                                 if(localStorage.getItem('user') == null)
                                 {
                                     var r="点赞";
-                                    this.$router.push({name: 'SingleBlog', params:{username: uname, blogId: blogId,ret:r}});
+                                    this.$router.push({name: 'SingleBlog', params:{username: localStorage.getItem('usr'), blogId:blogId,ret:r}});
                                 }
                                 else
                                 {
