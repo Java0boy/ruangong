@@ -290,7 +290,7 @@
                             var button = document.getElementById('editButton');
                             if (button)
                             {
-                                if (localStorage.getItem('user') == null)
+                                if (localStorage.getItem('user') != this.$route.params.username)
                                 {
                                     button.style.display = "none";
                                 }
@@ -329,7 +329,9 @@
                                 )
                             }
                         });
-                    }
+                    },
+
+
 
                 },
 
